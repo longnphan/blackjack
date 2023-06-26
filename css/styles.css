@@ -19,12 +19,16 @@ body {
   width: 80px;
 }
 
-.btn-player-actions:hover {
-  background-color: lightgreen;
-}
-
 .btn-chips:hover {
   background-color: rgb(247, 65, 65);
+}
+
+.btn-player-actions {
+  background-color: rgb(55, 54, 54);
+}
+
+.btn-player-actions:hover {
+  background-color: lightgreen;
 }
 
 .chips-container {
@@ -34,13 +38,13 @@ body {
 footer {
   bottom: 0;
   position: absolute;
-  margin-bottom: 1rem;
   width: 100%;
 }
 
 .footer-container {
-  border-top: 1px black solid;
+  border-top: 2px black solid;
   display: flex;
+  padding: 0.5rem 0;
   justify-content: space-between;
   width: 100%;
 }
@@ -48,4 +52,14 @@ footer {
 .player-actions-container {
   display: flex;
   margin-right: 10px;
+}
+
+.wagered-amount {
+  text-align: center;
+}
+
+.wagered-container {
+  border-left: 2px black solid;
+  border-right: 2px black solid;
+  padding: 0 5rem;
 }
