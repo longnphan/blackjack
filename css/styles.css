@@ -1,0 +1,51 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: radial-gradient(#419c59, #305639);
+  height: 100vh;
+  position: relative;
+}
+
+.btn {
+  border: none;
+  border-radius: 100%;
+  cursor: pointer;
+  height: 80px;
+  margin: 4px;
+  width: 80px;
+}
+
+.btn-player-actions:hover {
+  background-color: lightgreen;
+}
+
+.btn-chips:hover {
+  background-color: rgb(247, 65, 65);
+}
+
+.chips-container {
+  margin-left: 10px;
+}
+
+footer {
+  bottom: 0;
+  position: absolute;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.footer-container {
+  border-top: 1px black solid;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.player-actions-container {
+  display: flex;
+  margin-right: 10px;
+}
