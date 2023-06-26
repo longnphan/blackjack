@@ -1,0 +1,23 @@
+body {
+  background: radial-gradient(#419c59, #305639);
+  height: 100vh;
+  position: relative;
+}
+
+.chips {
+  border: none;
+  border-radius: 100%;
+  cursor: pointer;
+  height: 100px;
+  width: 100px;
+}
+
+.chips:hover {
+  background-color: rgb(247, 65, 65);
+}
+
+footer {
+  bottom: 0;
+  position: absolute;
+  margin-bottom: 1rem;
+}
