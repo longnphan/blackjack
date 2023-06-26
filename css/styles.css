@@ -14,9 +14,9 @@ body {
   border: none;
   border-radius: 100%;
   cursor: pointer;
-  height: 100px;
+  height: 80px;
   margin: 4px;
-  width: 100px;
+  width: 80px;
 }
 
 .btn-player-actions:hover {
