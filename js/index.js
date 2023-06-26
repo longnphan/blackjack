@@ -1,18 +1,42 @@
+const balanceText = document.querySelector(".balance-amount");
+const betText = document.querySelector(".bet-amount");
 const chipBtns = document.querySelectorAll(".btn-chips");
+const clearBtn = document.querySelector(".btn-clear");
 const dealBtn = document.querySelector(".btn-deal");
-const standBtn = document.querySelector(".btn-stand");
 const doubleDownBtn = document.querySelector(".btn-doubleDown");
 const splitBtn = document.querySelector(".btn-split");
-const wagered = document.querySelector(".wagered-amount");
-let totalWageredAmt = 0;
+const standBtn = document.querySelector(".btn-stand");
+let totalBalanceAmt = 1000;
+let totalBetAmt = 0;
 
-function calcWageredAmt() {
+function calcBetAmt() {
+  // Increment bet amount when chips are clicked on.
   for (let item of chipBtns) {
     item.addEventListener("click", e => {
-      totalWageredAmt += Number(e.target.textContent);
-      wagered.textContent = `$${totalWageredAmt}`;
+      let chipValue = Number(e.target.textContent);
+
+      // Can't place bet if balance is 0.
+      if (totalBalanceAmt - chipValue >= 0) {
+        totalBetAmt += chipValue;
+        betText.textContent = `$${totalBetAmt}`;
+
+        // Decrement Balance when chips are clicked on.
+        totalBalanceAmt -= chipValue;
+        balanceText.textContent = `$${totalBalanceAmt}`;
+      }
     });
+    // Adds event listener to clear bet btn.
+    clearBet();
   }
 }
 
-calcWageredAmt();
+function clearBet() {
+  clearBtn.addEventListener("click", () => {
+    totalBalanceAmt += totalBetAmt;
+    totalBetAmt = 0;
+    betText.textContent = `$${totalBetAmt}`;
+    balanceText.textContent = `$${totalBalanceAmt}`;
+  });
+}
+
+calcBetAmt();
