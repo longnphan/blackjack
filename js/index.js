@@ -3,8 +3,10 @@ const balanceText = document.querySelector(".balance-amount");
 const betText = document.querySelector(".bet-amount");
 const chipBtns = document.querySelectorAll(".btn-chips");
 const clearBtn = document.querySelector(".btn-clear");
+const dealer = document.querySelector(".dealer-card-container");
 const dealBtn = document.querySelector(".btn-deal");
 const doubleDownBtn = document.querySelector(".btn-doubleDown");
+const player = document.querySelector(".player-card-container");
 const splitBtn = document.querySelector(".btn-split");
 const standBtn = document.querySelector(".btn-stand");
 const cardShoe = [];
@@ -32,7 +34,7 @@ function createCardDeck() {
 
   for (let suit of cardSuit) {
     for (let val of cardValue) {
-      tempShoe.push(`${suit}_${val}`);
+      cardShoe.push(`${suit}_${val}`);
     }
   }
   shuffleCards(cardShoe);
@@ -56,6 +58,8 @@ function calcBetAmt() {
     });
     // Adds event listener to clear bet btn.
     clearBet();
+
+    disableActionBtns();
   }
 }
 
@@ -66,6 +70,38 @@ function clearBet() {
     betText.textContent = `$${totalBetAmt}`;
     balanceText.textContent = `$${totalBalanceAmt}`;
   });
+}
+
+function dealNewHand() {
+  // Chip btns should not work while hand is being played.
+  disableChipBtns();
+
+  // Enables action btns from disabled state when wagers are being placed.
+  enableActionBtns();
+
+  setTimeout(() => {
+    let cardImage = document.createElement("img");
+    cardImage.setAttribute("src", `../images/${cardShoe.shift()}.svg`);
+    player.appendChild(cardImage);
+  }, 0);
+
+  setTimeout(() => {
+    let cardImage2 = document.createElement("img");
+    cardImage2.setAttribute("src", `../images/${cardShoe.shift()}.svg`);
+    dealer.appendChild(cardImage2);
+  }, 700);
+
+  setTimeout(() => {
+    let cardImage3 = document.createElement("img");
+    cardImage3.setAttribute("src", `../images/${cardShoe.shift()}.svg`);
+    player.appendChild(cardImage3);
+  }, 1400);
+
+  setTimeout(() => {
+    let cardImage4 = document.createElement("img");
+    cardImage4.setAttribute("src", `../images/back.svg`);
+    dealer.appendChild(cardImage4);
+  }, 2100);
 }
 
 function disableActionBtns() {
@@ -84,6 +120,31 @@ function disableChipBtns() {
   }
 }
 
+function enableActionBtns() {
+  standBtn.classList.remove("btn-no-hover");
+  doubleDownBtn.classList.remove("btn-no-hover");
+  splitBtn.classList.remove("btn-no-hover");
+}
+
+function enableBtn(btnEl) {
+  // Enables btn. Takes in arg of btn element.
+  btnEl.classList.remove("btn-no-hover");
+}
+
+function enableChipBtns() {
+  // Enables clear bet btn.
+  clearBtn.classList.remove("btn-no-hover");
+
+  // Enables all chip btns.
+  for (let item of chipBtns) {
+    item.classList.remove("btn-no-hover");
+  }
+}
+
+function handleDealClick() {
+  dealBtn.addEventListener("click", dealNewHand);
+}
+
 function shuffleCards(deck) {
   // Durstenfeld Shuffle Algorithm
   for (let i = deck.length - 1; i > 0; i--) {
@@ -92,13 +153,10 @@ function shuffleCards(deck) {
   }
 }
 
-// disableActionBtns();
-// calcBetAmt();
+function startNewHand() {
+  createCardDeck();
+  calcBetAmt();
+  handleDealClick();
+}
 
-// console.log("before card created", cardShoe);
-// createCardDeck();
-// console.log("After:", cardShoe);
-
-// Might use later
-// clearBet.removeAttribute("disabled");
-// clearBet.setAttribute("disabled", "disabled");
+startNewHand();

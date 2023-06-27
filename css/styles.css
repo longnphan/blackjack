@@ -66,6 +66,15 @@ body {
   margin-left: 10px;
 }
 
+.dealer-card-container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 40vh;
+
+  width: 100%;
+}
+
 footer {
   bottom: 0;
   position: absolute;
@@ -80,9 +89,22 @@ footer {
   width: 100%;
 }
 
+img {
+  width: 10%;
+}
+
 .player-actions-container {
   display: flex;
   margin-right: 10px;
+}
+
+.player-card-container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  height: 40vh;
+  width: 100%;
 }
 
 .stats-container {
