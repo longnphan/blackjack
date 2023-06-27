@@ -32,6 +32,17 @@ const cardValueObj = {
   king: 10,
 };
 
+function addBtnListeners() {
+  // Adds event listeners to poker chip btns.
+  for (let item of chipBtns) {
+    item.addEventListener("click", e => chipValue(e));
+  }
+
+  clearBtn.addEventListener("click", clearBet);
+  dealBtn.addEventListener("click", dealNewHand);
+  hitBtn.addEventListener("click", playerHit);
+}
+
 function createCardDeck() {
   const cardSuit = ["clubs", "diamonds", "hearts", "spades"];
   const cardValue = Object.keys(cardValueObj);
@@ -45,39 +56,36 @@ function createCardDeck() {
 }
 
 function calcBetAmt() {
-  // Increment bet amount when chips are clicked on.
-  for (let item of chipBtns) {
-    item.addEventListener("click", e => {
-      let chipValue = Number(e.target.textContent);
+  clearBet();
+  disableActionBtns();
+}
 
-      // Can't place bet if balance is 0.
-      if (totalBalanceAmt - chipValue >= 0) {
-        totalBetAmt += chipValue;
-        betText.textContent = `$${totalBetAmt}`;
+function chipValue(event) {
+  let chipValue = Number(event.target.textContent);
 
-        // Decrement Balance when chips are clicked on.
-        totalBalanceAmt -= chipValue;
-        balanceText.textContent = `$${totalBalanceAmt}`;
-      }
-    });
-    // Adds event listener to clear bet btn.
-    clearBet();
+  // Can't place bet if balance is 0.
+  if (totalBalanceAmt - chipValue >= 0) {
+    totalBetAmt += chipValue;
+    betText.textContent = `$${totalBetAmt}`;
 
-    disableActionBtns();
+    // Decrement Balance when chips are clicked on.
+    totalBalanceAmt -= chipValue;
+    balanceText.textContent = `$${totalBalanceAmt}`;
   }
 }
 
 function clearBet() {
-  clearBtn.addEventListener("click", () => {
-    totalBalanceAmt += totalBetAmt;
-    totalBetAmt = 0;
-    betText.textContent = `$${totalBetAmt}`;
-    balanceText.textContent = `$${totalBalanceAmt}`;
-  });
+  totalBalanceAmt += totalBetAmt;
+  totalBetAmt = 0;
+  betText.textContent = `$${totalBetAmt}`;
+  balanceText.textContent = `$${totalBalanceAmt}`;
 }
 
 function dealNewHand() {
   // To-do: move dealerHand and playerHand arrs back here?
+
+  dealerHand = [];
+  playerHand = [];
 
   // Chip btns should not work while hand is being played.
   disableChipBtns();
@@ -87,9 +95,6 @@ function dealNewHand() {
 
   // Enables action btns except deal btn, from disabled state when wagers are being placed.
   enableActionBtns();
-
-  // Enables hit btn.
-  handleHitClick();
 
   playerHand[0] = cardShoe.shift();
   dealerHand[0] = cardShoe.shift();
@@ -189,10 +194,6 @@ function evalDealerHand(dealersHand) {
   return;
 }
 
-function handleDealClick() {
-  dealBtn.addEventListener("click", dealNewHand);
-}
-
 function handleHitClick() {
   hitBtn.addEventListener("click", playerHit);
 }
@@ -226,6 +227,7 @@ function playerBust() {
     player.innerHTML = "";
   }, 500);
 
+  updateBalance();
   startNewHand();
 }
 
@@ -248,7 +250,9 @@ function playerHit() {
   let playerTotal = evalHand(playerHand);
   console.log("new player total in PlayerHit is:", playerTotal);
 
-  if (playerTotal > 21) {
+  if (playerTotal === 21) {
+    console.log("Player has 21! You can no longer hit.");
+  } else if (playerTotal > 21) {
     playerBust();
   }
 }
@@ -261,12 +265,6 @@ function playerStand() {
   }
 }
 
-function reset() {
-  totalBetAmt = 0;
-  dealerHand = [];
-  playerHand = [];
-}
-
 function shuffleCards(deck) {
   // Durstenfeld Shuffle Algorithm
   for (let i = deck.length - 1; i > 0; i--) {
@@ -276,11 +274,18 @@ function shuffleCards(deck) {
 }
 
 function startNewHand() {
-  reset();
+  console.log("Bet amount in new game:", totalBetAmt);
   createCardDeck();
   calcBetAmt();
-  handleDealClick();
   enableChipBtns();
+  enableBtn(dealBtn);
 }
 
+function updateBalance() {
+  totalBetAmt = 0;
+  betText.textContent = `$${totalBetAmt}`;
+  balanceText.textContent = `$${totalBalanceAmt}`;
+}
+
+addBtnListeners();
 startNewHand();
