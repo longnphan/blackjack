@@ -30,7 +30,6 @@ const cardValueObj = {
 };
 
 function createCardDeck() {
-  const tempShoe = [];
   const cardSuit = ["clubs", "diamonds", "hearts", "spades"];
   const cardValue = Object.keys(cardValueObj);
 
