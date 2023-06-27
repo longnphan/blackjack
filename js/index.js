@@ -164,7 +164,23 @@ function handleDealClick() {
 }
 
 function isPair(playersHand) {
-  return playersHand[0].split("_")[0] === playersHand[1].split("_")[0];
+  return playersHand[0].split("_")[1] === playersHand[1].split("_")[1];
+}
+
+function isAceUnderneath() {
+  let dealerDownCard = dealersHand[0].split("_")[1];
+
+  // Todo: update this to losing state
+  if (dealerDownCard === "ace") console.log("Dealer has backjack")
+}
+
+function isTenShowing(dealersHand) {
+  let dealerUpCard = dealersHand[0].split("_")[1];
+  if (cardValueObj[dealerUpCard] === 10) {
+    isAceUnderneath();
+  } else {
+    return false;
+  }
 }
 
 function shuffleCards(deck) {
