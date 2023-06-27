@@ -30,7 +30,6 @@ const cardValueObj = {
 };
 
 function createCardDeck() {
-  const tempShoe = [];
   const cardSuit = ["clubs", "diamonds", "hearts", "spades"];
   const cardValue = Object.keys(cardValueObj);
 
@@ -153,6 +152,16 @@ function enableChipBtns() {
   }
 }
 
+function evalHand(hand) {
+  let total = 0;
+  for (let item of hand) {
+    let card = item.split("_")[1];
+    let cardVal = cardValueObj[card];
+    total += cardVal;
+  }
+  return total;
+}
+
 function evalDealerHand(dealersHand) {
   // If dealer is showing ace, player has option to buy insurance.
   if (dealersHand[0].split("_").includes("ace")) {
@@ -162,6 +171,26 @@ function evalDealerHand(dealersHand) {
 
 function handleDealClick() {
   dealBtn.addEventListener("click", dealNewHand);
+}
+
+function isPair(playersHand) {
+  return playersHand[0].split("_")[1] === playersHand[1].split("_")[1];
+}
+
+function isAceUnderneath(dealersHand) {
+  let dealerDownCard = dealersHand[0].split("_")[1];
+
+  // Todo: update this to losing state
+  if (dealerDownCard === "ace") console.log("Dealer has backjack");
+}
+
+function isTenShowing(dealersHand) {
+  let dealerUpCard = dealersHand[0].split("_")[1];
+  if (cardValueObj[dealerUpCard] === 10) {
+    isAceUnderneath(dealersHand);
+  } else {
+    return false;
+  }
 }
 
 function shuffleCards(deck) {
