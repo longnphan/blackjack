@@ -13,24 +13,26 @@ const cardShoe = [];
 let totalBalanceAmt = 1000;
 let totalBetAmt = 0;
 
+const cardValueObj = {
+  ace: [1, 11],
+  2: 2,
+  3: 3,
+  4: 4,
+  5: 5,
+  6: 6,
+  7: 7,
+  8: 8,
+  9: 9,
+  10: 10,
+  jack: 10,
+  queen: 10,
+  king: 10,
+};
+
 function createCardDeck() {
   const tempShoe = [];
   const cardSuit = ["clubs", "diamonds", "hearts", "spades"];
-  const cardValue = [
-    "ace",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "jack",
-    "queen",
-    "king",
-  ];
+  const cardValue = Object.keys(cardValueObj);
 
   for (let suit of cardSuit) {
     for (let val of cardValue) {
@@ -110,6 +112,8 @@ function dealNewHand() {
     cardImage4.setAttribute("src", `../images/back.svg`);
     dealer.appendChild(cardImage4);
   }, 2100);
+
+  evalDealerHand(dealerHand);
 }
 
 function disableActionBtns() {
@@ -149,7 +153,12 @@ function enableChipBtns() {
   }
 }
 
-function evalDealerHand(initHand) {}
+function evalDealerHand(dealersHand) {
+  // If dealer is showing ace, player has option to buy insurance.
+  if (dealersHand[0].split("_").includes("ace")) {
+    alert("Purchase insurance?");
+  }
+}
 
 function handleDealClick() {
   dealBtn.addEventListener("click", dealNewHand);
@@ -170,5 +179,3 @@ function startNewHand() {
 }
 
 startNewHand();
-
-
