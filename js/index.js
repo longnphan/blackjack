@@ -88,6 +88,30 @@ function clearCards() {
   player.innerHTML = "";
 }
 
+function dealerFlipCard() {
+  const faceDownCard = document.querySelector(".faceDown");
+  faceDownCard.setAttribute("src", `../images/${dealerHand[1]}.svg`);
+}
+
+function dealerHit() {
+  let nextCard = cardShoe.shift();
+  dealerHand.push(nextCard);
+
+  // Adds new card to dealers hand
+  let cardImage = document.createElement("img");
+  cardImage.setAttribute("src", `../images/${nextCard}.svg`);
+  dealer.appendChild(cardImage);
+
+  // Recalculates player new total.
+  let dealerTotal = evalHand(dealerHand);
+  console.log("new dealer total in DealerHit is:", dealerTotal);
+}
+
+function dealersTurn() {
+  const faceDownCard = document.querySelector(".faceDown");
+  faceDownCard.setAttribute("src", `../images/${dealerHand[1]}.svg`);
+}
+
 function dealNewHand() {
   // To-do: move dealerHand and playerHand arrs back here?
 
@@ -111,6 +135,7 @@ function dealNewHand() {
   setTimeout(() => {
     let cardImage = document.createElement("img");
     cardImage.setAttribute("src", `../images/${playerHand[0]}.svg`);
+    cardImage.classList.add("playerFirstCard");
     player.appendChild(cardImage);
   }, 0);
 
@@ -123,12 +148,14 @@ function dealNewHand() {
   setTimeout(() => {
     let cardImage3 = document.createElement("img");
     cardImage3.setAttribute("src", `../images/${playerHand[1]}.svg`);
+    cardImage3.classList.add("playerSecondCard");
     player.appendChild(cardImage3);
   }, 1400);
 
   setTimeout(() => {
     let cardImage4 = document.createElement("img");
     cardImage4.setAttribute("src", `../images/back.svg`);
+    cardImage4.classList.add("faceDown");
     dealer.appendChild(cardImage4);
   }, 2100);
 
@@ -191,18 +218,6 @@ function evalHand(hand) {
     total += cardVal;
   }
   return total;
-}
-
-function evalDealerHand(dealersHand) {
-  // If dealer is showing ace, player has option to buy insurance.
-  // if (dealersHand[0].split("_").includes("ace")) {
-  //   alert("Purchase insurance?");
-  // }
-  return;
-}
-
-function handleHitClick() {
-  hitBtn.addEventListener("click", playerHit);
 }
 
 function isPair(playersHand) {
