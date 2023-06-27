@@ -79,21 +79,29 @@ function dealNewHand() {
   // Enables action btns from disabled state when wagers are being placed.
   enableActionBtns();
 
+  const dealerHand = [];
+  const playerHand = [];
+
+  playerHand[0] = cardShoe.shift();
+  dealerHand[0] = cardShoe.shift();
+  playerHand[1] = cardShoe.shift();
+  dealerHand[1] = cardShoe.shift();
+
   setTimeout(() => {
     let cardImage = document.createElement("img");
-    cardImage.setAttribute("src", `../images/${cardShoe.shift()}.svg`);
+    cardImage.setAttribute("src", `../images/${playerHand[0]}.svg`);
     player.appendChild(cardImage);
   }, 0);
 
   setTimeout(() => {
     let cardImage2 = document.createElement("img");
-    cardImage2.setAttribute("src", `../images/${cardShoe.shift()}.svg`);
+    cardImage2.setAttribute("src", `../images/${dealerHand[0]}.svg`);
     dealer.appendChild(cardImage2);
   }, 700);
 
   setTimeout(() => {
     let cardImage3 = document.createElement("img");
-    cardImage3.setAttribute("src", `../images/${cardShoe.shift()}.svg`);
+    cardImage3.setAttribute("src", `../images/${playerHand[1]}.svg`);
     player.appendChild(cardImage3);
   }, 1400);
 
@@ -141,6 +149,8 @@ function enableChipBtns() {
   }
 }
 
+function evalDealerHand(initHand) {}
+
 function handleDealClick() {
   dealBtn.addEventListener("click", dealNewHand);
 }
@@ -160,3 +170,5 @@ function startNewHand() {
 }
 
 startNewHand();
+
+
