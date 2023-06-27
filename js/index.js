@@ -12,9 +12,11 @@ const standBtn = document.querySelector(".btn-stand");
 const cardShoe = [];
 let totalBalanceAmt = 1000;
 let totalBetAmt = 0;
+let dealerHand = [];
+let playerHand = [];
 
 const cardValueObj = {
-  ace: [1, 11],
+  ace: 11,
   2: 2,
   3: 3,
   4: 4,
@@ -74,14 +76,16 @@ function clearBet() {
 }
 
 function dealNewHand() {
+  // To-do: move dealerHand and playerHand arrs back here?
+
   // Chip btns should not work while hand is being played.
   disableChipBtns();
 
   // Enables action btns from disabled state when wagers are being placed.
   enableActionBtns();
 
-  const dealerHand = [];
-  const playerHand = [];
+  // Changes deal btn to hit btn.
+  switchDealerBtn();
 
   playerHand[0] = cardShoe.shift();
   dealerHand[0] = cardShoe.shift();
@@ -112,7 +116,12 @@ function dealNewHand() {
     dealer.appendChild(cardImage4);
   }, 2100);
 
-  evalDealerHand(dealerHand);
+  // console.log("dealer hand is:", dealerHand);
+  // console.log("player hand is:", playerHand);
+  // console.log(evalDealerHand("evalDealerHand:", dealerHand));
+  // console.log(evalHand("regular DEALER evalHand:", dealerHand));
+  console.log("Dealers hand is:", evalHand(dealerHand));
+  console.log("Player hand is:", evalHand(playerHand));
 }
 
 function disableActionBtns() {
@@ -164,9 +173,10 @@ function evalHand(hand) {
 
 function evalDealerHand(dealersHand) {
   // If dealer is showing ace, player has option to buy insurance.
-  if (dealersHand[0].split("_").includes("ace")) {
-    alert("Purchase insurance?");
-  }
+  // if (dealersHand[0].split("_").includes("ace")) {
+  //   alert("Purchase insurance?");
+  // }
+  return;
 }
 
 function handleDealClick() {
@@ -193,12 +203,40 @@ function isTenShowing(dealersHand) {
   }
 }
 
+function playerHit() {
+  let nextCard = cardShoe.shift();
+  playerHand.push(nextCard);
+  
+  // Adds new card to players hand
+  let cardImage = document.createElement("img");
+  cardImage.setAttribute("src", `../images/${nextCard}.svg`);
+  player.appendChild(cardImage);
+
+  // Recalculates player new total.
+  let playerTotal = evalHand(playerHand);
+  console.log("new player total in PlayerHit is:", playerTotal);
+}
+
+function playerStand() {
+  let dealerTotal = evalHand(dealerHand);
+  let playerTotal = evalHand(playerHand);
+  if (playerTotal <= 21 && playerTotal > dealerTotal) {
+    console.log("player wins");
+  }
+}
+
 function shuffleCards(deck) {
   // Durstenfeld Shuffle Algorithm
   for (let i = deck.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [deck[i], deck[j]] = [deck[j], deck[i]];
   }
+}
+
+function switchDealerBtn() {
+  dealBtn.removeEventListener("click", dealNewHand);
+  dealBtn.addEventListener("click", playerHit);
+  dealBtn.textContent = "Hit";
 }
 
 function startNewHand() {
