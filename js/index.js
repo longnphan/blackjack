@@ -12,6 +12,8 @@ const standBtn = document.querySelector(".btn-stand");
 const cardShoe = [];
 let totalBalanceAmt = 1000;
 let totalBetAmt = 0;
+let dealerHand = [];
+let playerHand = [];
 
 const cardValueObj = {
   ace: 11,
@@ -74,6 +76,8 @@ function clearBet() {
 }
 
 function dealNewHand() {
+  // To-do: move dealerHand and playerHand arrs back here?
+
   // Chip btns should not work while hand is being played.
   disableChipBtns();
 
@@ -82,9 +86,6 @@ function dealNewHand() {
 
   // Changes deal btn to hit btn.
   switchDealerBtn();
-
-  let dealerHand = [];
-  let playerHand = [];
 
   playerHand[0] = cardShoe.shift();
   dealerHand[0] = cardShoe.shift();
@@ -204,9 +205,24 @@ function isTenShowing(dealersHand) {
 
 function playerHit() {
   let nextCard = cardShoe.shift();
+  playerHand.push(nextCard);
+  
+  // Adds new card to players hand
   let cardImage = document.createElement("img");
   cardImage.setAttribute("src", `../images/${nextCard}.svg`);
   player.appendChild(cardImage);
+
+  // Recalculates player new total.
+  let playerTotal = evalHand(playerHand);
+  console.log("new player total in PlayerHit is:", playerTotal);
+}
+
+function playerStand() {
+  let dealerTotal = evalHand(dealerHand);
+  let playerTotal = evalHand(playerHand);
+  if (playerTotal <= 21 && playerTotal > dealerTotal) {
+    console.log("player wins");
+  }
 }
 
 function shuffleCards(deck) {
