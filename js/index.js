@@ -41,6 +41,7 @@ function addBtnListeners() {
   clearBtn.addEventListener("click", clearBet);
   dealBtn.addEventListener("click", dealNewHand);
   hitBtn.addEventListener("click", playerHit);
+  standBtn.addEventListener("click", playerStand);
 }
 
 function createCardDeck() {
@@ -79,6 +80,12 @@ function clearBet() {
   totalBetAmt = 0;
   betText.textContent = `$${totalBetAmt}`;
   balanceText.textContent = `$${totalBalanceAmt}`;
+}
+
+function clearCards() {
+  // Clears cards from UI after hand is played.
+  dealer.innerHTML = "";
+  player.innerHTML = "";
 }
 
 function dealNewHand() {
@@ -219,20 +226,9 @@ function isTenShowing(dealersHand) {
 }
 
 function playerBust() {
-  // w/o setTimeout, new card is never rendered and goes straight to alert.
-  setTimeout(() => {
-    alert("Player busts. You lose.");
-    // Clears cards from UI.
-    dealer.innerHTML = "";
-    player.innerHTML = "";
-  }, 500);
-
   updateBalance();
   startNewHand();
 }
-
-// Disbles action btns.
-disableActionBtns();
 
 function playerHit() {
   // Disables double down button, since player already hit.
@@ -253,16 +249,36 @@ function playerHit() {
   if (playerTotal === 21) {
     console.log("Player has 21! You can no longer hit.");
   } else if (playerTotal > 21) {
-    playerBust();
+    playerLoses();
   }
 }
 
 function playerStand() {
   let dealerTotal = evalHand(dealerHand);
   let playerTotal = evalHand(playerHand);
+  if (playerTotal === dealerTotal) playerPushes();
+
   if (playerTotal <= 21 && playerTotal > dealerTotal) {
-    console.log("player wins");
+    playerWins();
+  } else {
+    playerLoses();
   }
+}
+
+function playerLoses() {
+  clearCards();
+  updateBalance();
+}
+
+function playerPushes() {
+  console.log("PUSH");
+  totalBalanceAmt += totalBetAmt;
+  updateBalance();
+}
+
+function playerWins() {
+  totalBalanceAmt += totalBetAmt * 2;
+  updateBalance();
 }
 
 function shuffleCards(deck) {
@@ -274,9 +290,8 @@ function shuffleCards(deck) {
 }
 
 function startNewHand() {
-  console.log("Bet amount in new game:", totalBetAmt);
   createCardDeck();
-  calcBetAmt();
+  disableActionBtns();
   enableChipBtns();
   enableBtn(dealBtn);
 }
@@ -285,6 +300,8 @@ function updateBalance() {
   totalBetAmt = 0;
   betText.textContent = `$${totalBetAmt}`;
   balanceText.textContent = `$${totalBalanceAmt}`;
+  clearCards();
+  startNewHand();
 }
 
 addBtnListeners();
