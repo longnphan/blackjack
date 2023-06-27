@@ -12,6 +12,7 @@ let totalBalanceAmt = 1000;
 let totalBetAmt = 0;
 
 function createCardDeck() {
+  const tempShoe = [];
   const cardSuit = ["clubs", "diamonds", "hearts", "spades"];
   const cardValue = [
     "ace",
@@ -31,7 +32,7 @@ function createCardDeck() {
 
   for (let suit of cardSuit) {
     for (let val of cardValue) {
-      cardShoe.push(`${suit}_${val}`);
+      tempShoe.push(`${suit}_${val}`);
     }
   }
   shuffleCards(cardShoe);

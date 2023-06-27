@@ -5,7 +5,8 @@
 }
 
 body {
-  background: radial-gradient(#419c59, #305639);
+  background-image: url("../images/table-bg.png");
+  background-position: center;
   height: 100vh;
   position: relative;
 }
@@ -78,8 +79,6 @@ footer {
   padding: 0.5rem 0;
   width: 100%;
 }
-
-
 
 .player-actions-container {
   display: flex;
