@@ -1,3 +1,4 @@
+// Variables
 const balanceText = document.querySelector(".balance-amount");
 const betText = document.querySelector(".bet-amount");
 const chipBtns = document.querySelectorAll(".btn-chips");
@@ -39,4 +40,25 @@ function clearBet() {
   });
 }
 
+function disableActionBtns() {
+  standBtn.classList.add("btn-no-hover");
+  doubleDownBtn.classList.add("btn-no-hover");
+  splitBtn.classList.add("btn-no-hover");
+}
+
+function disableChipBtns() {
+  // Disables clear bet btn.
+  clearBtn.classList.add("btn-no-hover");
+
+  // Disables all chip btns.
+  for (let item of chipBtns) {
+    item.classList.add("btn-no-hover");
+  }
+}
+
+disableActionBtns();
 calcBetAmt();
+
+// Might use later
+// clearBet.removeAttribute("disabled");
+// clearBet.setAttribute("disabled", "disabled");
