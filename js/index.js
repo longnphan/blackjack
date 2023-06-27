@@ -203,10 +203,23 @@ function isTenShowing(dealersHand) {
   }
 }
 
+function playerBust() {
+  // w/o setTimeout, new card is never rendered and goes straight to alert.
+  setTimeout(() => {
+    alert("Player busts. You lose.");
+    // Clears cards from UI.
+    dealer.innerHTML = "";
+    player.innerHTML = "";
+  }, 500);
+}
+
+// Disbles action btns.
+disableActionBtns();
+
 function playerHit() {
   let nextCard = cardShoe.shift();
   playerHand.push(nextCard);
-  
+
   // Adds new card to players hand
   let cardImage = document.createElement("img");
   cardImage.setAttribute("src", `../images/${nextCard}.svg`);
@@ -215,6 +228,10 @@ function playerHit() {
   // Recalculates player new total.
   let playerTotal = evalHand(playerHand);
   console.log("new player total in PlayerHit is:", playerTotal);
+
+  if (playerTotal > 21) {
+    playerBust();
+  }
 }
 
 function playerStand() {
