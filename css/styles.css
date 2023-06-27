@@ -10,8 +10,25 @@ body {
   position: relative;
 }
 
+.balance-amount {
+  margin-left: 18px;
+}
+
+.balance-container {
+  display: flex;
+}
+
+.bet-amount {
+  margin-left: 7px;
+}
+
+.bet-container {
+  display: flex;
+}
+
 .btn {
-  border: none;
+  background-color: #60686c;
+  border: 2px solid black;
   border-radius: 100%;
   cursor: pointer;
   height: 80px;
@@ -19,12 +36,29 @@ body {
   width: 80px;
 }
 
-.btn-player-actions:hover {
-  background-color: lightgreen;
-}
-
 .btn-chips:hover {
   background-color: rgb(247, 65, 65);
+}
+
+.btn-clear {
+  background-color: rgb(252, 96, 96);
+}
+
+.btn-clear:hover {
+  background-color: white;
+}
+
+.btn-no-hover {
+  filter: brightness(25%);
+  pointer-events: none;
+}
+
+.btn-player-actions {
+  background-color: rgb(55, 54, 54);
+}
+
+.btn-player-actions:hover {
+  background-color: lightgreen;
 }
 
 .chips-container {
@@ -34,18 +68,29 @@ body {
 footer {
   bottom: 0;
   position: absolute;
-  margin-bottom: 1rem;
   width: 100%;
 }
 
 .footer-container {
-  border-top: 1px black solid;
+  border-top: 2px black solid;
   display: flex;
   justify-content: space-between;
+  padding: 0.5rem 0;
   width: 100%;
 }
+
+
 
 .player-actions-container {
   display: flex;
   margin-right: 10px;
+}
+
+.stats-container {
+  border-left: 2px black solid;
+  border-right: 2px black solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 0 5rem;
 }
