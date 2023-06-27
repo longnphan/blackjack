@@ -67,12 +67,14 @@ body {
 }
 
 .dealer-card-container {
-  align-items: center;
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 40% 60%;
   height: 40vh;
+}
 
-  width: 100%;
+.dealer-cards {
+  height: 100%;
+  padding-top: 2rem;
 }
 
 footer {
@@ -90,7 +92,7 @@ footer {
 }
 
 img {
-  width: 10%;
+  width: 15%;
 }
 
 .player-actions-container {
@@ -99,12 +101,14 @@ img {
 }
 
 .player-card-container {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 40% 60%;
   height: 40vh;
-  width: 100%;
+}
+
+.player-cards {
+  height: 100%;
+  padding-top: 5rem;
 }
 
 .stats-container {
