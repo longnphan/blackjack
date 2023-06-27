@@ -79,10 +79,6 @@ function clearBet() {
 function dealNewHand() {
   // To-do: move dealerHand and playerHand arrs back here?
 
-  // Clears out previous hand.
-  dealerHand = [];
-  playerHand = [];
-
   // Chip btns should not work while hand is being played.
   disableChipBtns();
 
@@ -229,7 +225,7 @@ function playerBust() {
     dealer.innerHTML = "";
     player.innerHTML = "";
   }, 500);
-  handIsDealt = false;
+
   startNewHand();
 }
 
@@ -265,6 +261,12 @@ function playerStand() {
   }
 }
 
+function reset() {
+  totalBetAmt = 0;
+  dealerHand = [];
+  playerHand = [];
+}
+
 function shuffleCards(deck) {
   // Durstenfeld Shuffle Algorithm
   for (let i = deck.length - 1; i > 0; i--) {
@@ -273,13 +275,8 @@ function shuffleCards(deck) {
   }
 }
 
-function switchDealerBtn() {
-  dealBtn.removeEventListener("click", dealNewHand);
-  dealBtn.addEventListener("click", playerHit);
-  dealBtn.textContent = "Hit";
-}
-
 function startNewHand() {
+  reset();
   createCardDeck();
   calcBetAmt();
   handleDealClick();
