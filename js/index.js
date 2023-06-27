@@ -6,6 +6,7 @@ const clearBtn = document.querySelector(".btn-clear");
 const dealer = document.querySelector(".dealer-cards");
 const dealBtn = document.querySelector(".btn-deal");
 const doubleDownBtn = document.querySelector(".btn-doubleDown");
+const hitBtn = document.querySelector(".btn-hit");
 const player = document.querySelector(".player-cards");
 const splitBtn = document.querySelector(".btn-split");
 const standBtn = document.querySelector(".btn-stand");
@@ -78,14 +79,21 @@ function clearBet() {
 function dealNewHand() {
   // To-do: move dealerHand and playerHand arrs back here?
 
+  // Clears out previous hand.
+  dealerHand = [];
+  playerHand = [];
+
   // Chip btns should not work while hand is being played.
   disableChipBtns();
 
-  // Enables action btns from disabled state when wagers are being placed.
+  // Disables deal btn.
+  dealBtn.classList.add("btn-no-hover");
+
+  // Enables action btns except deal btn, from disabled state when wagers are being placed.
   enableActionBtns();
 
-  // Changes deal btn to hit btn.
-  switchDealerBtn();
+  // Enables hit btn.
+  handleHitClick();
 
   playerHand[0] = cardShoe.shift();
   dealerHand[0] = cardShoe.shift();
@@ -125,6 +133,7 @@ function dealNewHand() {
 }
 
 function disableActionBtns() {
+  hitBtn.classList.add("btn-no-hover");
   standBtn.classList.add("btn-no-hover");
   doubleDownBtn.classList.add("btn-no-hover");
   splitBtn.classList.add("btn-no-hover");
@@ -140,7 +149,12 @@ function disableChipBtns() {
   }
 }
 
+function disableChipBtn(btnEl) {
+  btnEl.classList.add("btn-no-hover");
+}
+
 function enableActionBtns() {
+  hitBtn.classList.remove("btn-no-hover");
   standBtn.classList.remove("btn-no-hover");
   doubleDownBtn.classList.remove("btn-no-hover");
   splitBtn.classList.remove("btn-no-hover");
@@ -183,6 +197,10 @@ function handleDealClick() {
   dealBtn.addEventListener("click", dealNewHand);
 }
 
+function handleHitClick() {
+  hitBtn.addEventListener("click", playerHit);
+}
+
 function isPair(playersHand) {
   return playersHand[0].split("_")[1] === playersHand[1].split("_")[1];
 }
@@ -211,12 +229,17 @@ function playerBust() {
     dealer.innerHTML = "";
     player.innerHTML = "";
   }, 500);
+  handIsDealt = false;
+  startNewHand();
 }
 
 // Disbles action btns.
 disableActionBtns();
 
 function playerHit() {
+  // Disables double down button, since player already hit.
+  disableChipBtn(doubleDownBtn);
+
   let nextCard = cardShoe.shift();
   playerHand.push(nextCard);
 
@@ -260,6 +283,7 @@ function startNewHand() {
   createCardDeck();
   calcBetAmt();
   handleDealClick();
+  enableChipBtns();
 }
 
 startNewHand();
