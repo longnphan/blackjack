@@ -163,6 +163,10 @@ function handleDealClick() {
   dealBtn.addEventListener("click", dealNewHand);
 }
 
+function isPair(playersHand) {
+  return playersHand[0].split("_")[0] === playersHand[1].split("_")[0];
+}
+
 function shuffleCards(deck) {
   // Durstenfeld Shuffle Algorithm
   for (let i = deck.length - 1; i > 0; i--) {
