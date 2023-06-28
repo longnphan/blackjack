@@ -121,6 +121,11 @@ img {
   padding-top: 70%;
 }
 
+.player-outcome {
+  padding-left: 40%;
+  padding-top: 30%;
+}
+
 .stats-container {
   border-left: 2px black solid;
   border-right: 2px black solid;

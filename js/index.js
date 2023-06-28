@@ -10,6 +10,7 @@ const doubleDownBtn = document.querySelector(".btn-doubleDown");
 const hitBtn = document.querySelector(".btn-hit");
 const player = document.querySelector(".player-cards");
 const playerText = document.querySelector(".player-total-text");
+const playerOutcome = document.querySelector(".player-outcome");
 const splitBtn = document.querySelector(".btn-split");
 const standBtn = document.querySelector(".btn-stand");
 const cardShoe = [];
@@ -88,6 +89,8 @@ function clearCards() {
   // Clears cards from UI after hand is played.
   dealer.innerHTML = "";
   player.innerHTML = "";
+  dealerText.textContent = "";
+  playerText.textContent = "";
 }
 
 function dealerFlipCard() {
@@ -143,6 +146,9 @@ function dealNewHand() {
   playerHand[1] = cardShoe.shift();
   dealerHand[1] = cardShoe.shift();
 
+  let dealerTotalVal = evalHand(dealerHand);
+  let playerTotalVal = evalHand(playerHand);
+
   setTimeout(() => {
     let cardImage = document.createElement("img");
     cardImage.setAttribute("src", `../images/${playerHand[0]}.svg`);
@@ -161,6 +167,8 @@ function dealNewHand() {
     cardImage3.setAttribute("src", `../images/${playerHand[1]}.svg`);
     cardImage3.classList.add("playerSecondCard");
     player.appendChild(cardImage3);
+
+    playerText.textContent = playerTotalVal;
   }, 1400);
 
   setTimeout(() => {
@@ -174,8 +182,9 @@ function dealNewHand() {
   // console.log("player hand is:", playerHand);
   // console.log(evalDealerHand("evalDealerHand:", dealerHand));
   // console.log(evalHand("regular DEALER evalHand:", dealerHand));
-  console.log("Dealers hand is:", evalHand(dealerHand));
-  console.log("Player hand is:", evalHand(playerHand));
+
+  console.log("Dealers hand is:", dealerTotalVal);
+  console.log("Player hand is:", playerTotalVal);
 }
 
 function disableActionBtns() {
@@ -270,6 +279,7 @@ function playerHit() {
 
   // Recalculates player new total.
   let playerTotal = evalHand(playerHand);
+  updatePlayerText(playerTotal);
   console.log("new player total in PlayerHit is:", playerTotal);
 
   if (playerTotal === 21) {
@@ -328,6 +338,10 @@ function updateBalance() {
   balanceText.textContent = `$${totalBalanceAmt}`;
   clearCards();
   startNewHand();
+}
+
+function updatePlayerText(newPlayerTotal) {
+  playerText.textContent = newPlayerTotal;
 }
 
 addBtnListeners();
