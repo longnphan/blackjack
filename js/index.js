@@ -215,10 +215,14 @@ function dealNewHand() {
   playersNextMove();
 }
 
-function dealersTurn() {
-  // Flips dealer's face down card.
+function dealerFlipsCard() {
   const faceDownCard = document.querySelector(".faceDown");
   faceDownCard.setAttribute("src", `../images/${dealerHand[1]}.svg`);
+}
+
+function dealersTurn() {
+  // Flips dealer's face down card.
+  dealerFlipsCard();
 
   if (isPush()) {
     playerPushes();
@@ -357,11 +361,15 @@ function playersNextMove() {
   let dealerTotal = evalHand(dealerHand);
   let playerTotal = evalHand(playerHand);
 
-  if (playerTotal > 21) {
+  if (playerTotal === 21 && dealerTotal === 21) {
+    playerPushes();
+  } else if (dealerTotal === 21 && playerTotal < 21) {
+    dealerFlipCard();
     playerLoses();
   } else if (playerTotal === 21 && dealerTotal < 21) {
-    console.log("Player has Blackjack!");
     playerWins(1.5);
+  } else if (playerTotal > 21) {
+    playerLoses();
   }
 }
 
