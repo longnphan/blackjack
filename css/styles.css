@@ -6,7 +6,8 @@
 
 body {
   background-image: url("../images/table-bg.png");
-  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   height: 100vh;
   position: relative;
 }
@@ -63,7 +64,9 @@ body {
 }
 
 .chips-container {
-  margin-left: 10px;
+  display: flex;
+  justify-content: start;
+  padding-left: 1rem;
 }
 
 .dealer-card-container {
@@ -75,6 +78,18 @@ body {
 .dealer-cards {
   height: 100%;
   padding-top: 2rem;
+}
+
+.dealer-card-total {
+  display: grid;
+  grid-template-rows: 10% 15% 75%;
+}
+
+.dealer-heading,
+.dealer-total-text {
+  display: flex;
+  justify-content: center;
+  padding-right: 8rem;
 }
 
 .dealer-total-text {
@@ -90,8 +105,11 @@ footer {
 
 .footer-container {
   border-top: 2px black solid;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 37.5% 25% 37.5%;
+
+  /* display: flex;
+  justify-content: space-between; */
   padding: 0.5rem 0;
   width: 100%;
 }
@@ -100,9 +118,15 @@ img {
   width: 15%;
 }
 
+.pic {
+  height: 75px;
+  width: 75px;
+}
+
 .player-actions-container {
   display: flex;
-  margin-right: 10px;
+  justify-content: end;
+  padding-right: 1rem;
 }
 
 .player-card-container {
@@ -113,20 +137,33 @@ img {
 
 .player-cards {
   height: 100%;
-  padding-top: 5rem;
+  padding-top: 5.5rem;
+}
+.player-card-total {
+  display: grid;
+  grid-template-rows: 30% 10% 10% 20% 30%;
+}
+
+.player-heading,
+.player-total-text {
+  display: flex;
+  justify-content: center;
+  padding-right: 8rem;
 }
 
 .player-total-text {
-  padding-left: 50%;
-  padding-top: 70%;
+  padding-top: 0.5rem;
 }
 
 .player-outcome {
-  padding-left: 40%;
-  padding-top: 30%;
+  display: flex;
+  justify-content: center;
+  padding-top: 2rem;
+  padding-right: 8rem;
 }
 
 .stats-container {
+  align-items: center;
   border-left: 2px black solid;
   border-right: 2px black solid;
   display: flex;
