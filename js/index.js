@@ -107,6 +107,15 @@ function dealerHit() {
   console.log("new dealer total in DealerHit is:", dealerTotal);
 }
 
+function specialCase() {
+  let dealerCard1 = dealersHand[0].split("_")[1];
+  let dealerCard2 = dealersHand[1].split("_")[1];
+  if (cardValueObj[dealerCard1] === "10" && dealerCard2 === "ace") {
+    dealerFlipCard();
+    console.log("Dealer has Blackjack! You lose");
+  }
+}
+
 function dealersTurn() {
   const faceDownCard = document.querySelector(".faceDown");
   faceDownCard.setAttribute("src", `../images/${dealerHand[1]}.svg`);
