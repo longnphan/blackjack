@@ -85,16 +85,14 @@ body {
   grid-template-rows: 10% 15% 75%;
 }
 
-.dealer-heading,
-.dealer-total-text {
+.dealer-heading {
   display: flex;
   justify-content: center;
   padding-right: 8rem;
 }
 
 .dealer-total-text {
-  padding-left: 50%;
-  padding-top: 65%;
+  padding-left: 12%;
 }
 
 footer {

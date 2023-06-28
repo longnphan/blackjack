@@ -116,15 +116,10 @@ function dealerHit() {
   console.log("new dealer total in DealerHit is:", dealerTotal);
 }
 
-function dealersTurn() {
-  const faceDownCard = document.querySelector(".faceDown");
-  faceDownCard.setAttribute("src", `../images/${dealerHand[1]}.svg`);
-  dealersNextMove();
-}
-
 function dealersNextMove() {
   let dealerTotal = evalHand(dealerHand);
   let playerTotal = evalHand(playerHand);
+  dealerText.textContent = dealerTotal;
 
   if (dealerTotal > 21) playerWins();
 
@@ -220,6 +215,18 @@ function dealNewHand() {
   playersNextMove();
 }
 
+function dealersTurn() {
+  // Flips dealer's face down card.
+  const faceDownCard = document.querySelector(".faceDown");
+  faceDownCard.setAttribute("src", `../images/${dealerHand[1]}.svg`);
+
+  if (isPush()) {
+    playerPushes();
+  } else {
+    dealersNextMove();
+  }
+}
+
 function disableActionBtns() {
   newGameBtn.classList.add("btn-no-hover");
   hitBtn.classList.add("btn-no-hover");
@@ -294,6 +301,19 @@ function isAceUnderneath(dealersHand) {
   if (dealerDownCard === "ace") console.log("Dealer has backjack");
 }
 
+function isPush() {
+  console.log("Is inside isPush");
+  let dealerTotal = evalHand(dealerHand);
+  let playerTotal = evalHand(playerHand);
+  return (
+    dealerTotal === playerTotal &&
+    dealerTotal >= 17 &&
+    dealerTotal <= 21 &&
+    playerTotal >= 17 &&
+    playerTotal <= 21
+  );
+}
+
 function isTenShowing(dealersHand) {
   let dealerUpCard = dealersHand[0].split("_")[1];
   if (cardValueObj[dealerUpCard] === 10) {
@@ -346,7 +366,7 @@ function playersNextMove() {
 }
 
 function playerLoses() {
-  playerOutcome.textContent = "Lost";
+  playerOutcome.textContent = "Lose";
   enableOnlyNewGameBtn();
   // reset();
 }
@@ -365,7 +385,7 @@ function playerStand() {
 function playerWins(oddsFactor = 1) {
   // pays back original bet amt + bet multiple by 1.5 for BJ or 2 for doubledown
   totalBalanceAmt += totalBetAmt + totalBetAmt * oddsFactor;
-  playerOutcome.textContent = "Won";
+  playerOutcome.textContent = "Win";
   enableOnlyNewGameBtn();
 }
 
@@ -392,6 +412,7 @@ function specialCase() {
 }
 
 function startNewHand() {
+  if (totalBalanceAmt === 0) alert("You're out of money.");
   createCardDeck();
   disableActionBtns();
   enableChipBtns();
