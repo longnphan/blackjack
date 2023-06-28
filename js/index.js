@@ -129,7 +129,7 @@ function dealersNextMove() {
   if (dealerTotal > 21) playerWins();
 
   if (dealerTotal >= 17) {
-    if (dealerTotal > playerTotal) {
+    if (dealerTotal <= 21 && dealerTotal > playerTotal) {
       playerLoses();
     } else {
       playerWins();
@@ -216,6 +216,8 @@ function dealNewHand() {
 
   console.log("Dealers hand is:", dealerTotalVal);
   console.log("Player hand is:", playerTotalVal);
+
+  playersNextMove();
 }
 
 function disableActionBtns() {
@@ -305,16 +307,15 @@ function playerDoubleDown() {
   playerNextCard();
   disableAllActionBtns();
   dealersTurn();
-  if (evalHand(playerHand) > 21) {
-    playerLoses();
-  }
+  if (evalHand(playerHand) > 21) playerLoses();
 }
 
 function playerHit() {
-  playerNextCard();
-
   // Disables double down button, since player already hit.
   disableBtn(doubleDownBtn);
+
+  playerNextCard();
+  playersNextMove();
 }
 
 function playerNextCard() {
@@ -332,6 +333,18 @@ function playerNextCard() {
   console.log("new player total in PlayerHit is:", playerTotal);
 }
 
+function playersNextMove() {
+  let dealerTotal = evalHand(dealerHand);
+  let playerTotal = evalHand(playerHand);
+
+  if (playerTotal > 21) {
+    playerLoses();
+  } else if (playerTotal === 21 && dealerTotal < 21) {
+    console.log("Player has Blackjack!");
+    playerWins(1.5);
+  }
+}
+
 function playerLoses() {
   playerOutcome.textContent = "Lost";
   enableOnlyNewGameBtn();
@@ -341,25 +354,17 @@ function playerLoses() {
 function playerPushes() {
   console.log("PUSH");
   totalBalanceAmt += totalBetAmt;
+  playerOutcome.textContent = "Push";
   enableOnlyNewGameBtn();
 }
 
 function playerStand() {
-  let dealerTotal = evalHand(dealerHand);
-  let playerTotal = evalHand(playerHand);
-
-  // if (playerTotal === dealerTotal) playerPushes();
   dealersTurn();
-
-  // if (playerTotal <= 21 && playerTotal > dealerTotal) {
-  //   playerWins();
-  // } else {
-  //   playerLoses();
-  // }
 }
 
-function playerWins() {
-  totalBalanceAmt += totalBetAmt * 2;
+function playerWins(oddsFactor = 1) {
+  // pays back original bet amt + bet multiple by 1.5 for BJ or 2 for doubledown
+  totalBalanceAmt += totalBetAmt + totalBetAmt * oddsFactor;
   playerOutcome.textContent = "Won";
   enableOnlyNewGameBtn();
 }
