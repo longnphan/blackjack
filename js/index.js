@@ -41,11 +41,13 @@ function addBtnListeners() {
     item.addEventListener("click", e => chipValue(e));
   }
 
+  // Add event listeners to action btns.
   clearBtn.addEventListener("click", clearBet);
   newGameBtn.addEventListener("click", reset);
   dealBtn.addEventListener("click", dealNewHand);
   hitBtn.addEventListener("click", playerHit);
   standBtn.addEventListener("click", playerStand);
+  doubleDownBtn.addEventListener("click", playerDoubleDown);
 }
 
 function createCardDeck() {
@@ -117,6 +119,46 @@ function dealerHit() {
 function dealersTurn() {
   const faceDownCard = document.querySelector(".faceDown");
   faceDownCard.setAttribute("src", `../images/${dealerHand[1]}.svg`);
+  dealersNextMove();
+}
+
+function dealersNextMove() {
+  let dealerTotal = evalHand(dealerHand);
+  let playerTotal = evalHand(playerHand);
+
+  if (dealerTotal > 21) playerWins();
+
+  if (dealerTotal >= 17) {
+    if (dealerTotal > playerTotal) {
+      playerLoses();
+    } else {
+      playerWins();
+    }
+  }
+
+  if (dealerTotal === 17) {
+    if (dealerTotal > playerTotal) {
+      playerLoses();
+    } else if (dealerTotal <= 16) {
+      dealerNextCard();
+    }
+  } else if (dealerTotal < 17) {
+    dealerNextCard();
+    dealersNextMove();
+  }
+}
+
+function dealerNextCard() {
+  let nextCard = cardShoe.shift();
+  dealerHand.push(nextCard);
+
+  // Adds new card to dealer hand
+  let cardImage = document.createElement("img");
+  cardImage.setAttribute("src", `../images/${nextCard}.svg`);
+  dealer.appendChild(cardImage);
+
+  let dealerTotal = evalHand(dealerHand);
+  console.log("new dealer total in DealerHit is:", dealerTotal);
 }
 
 function dealNewHand() {
@@ -154,7 +196,7 @@ function dealNewHand() {
     let cardImage2 = document.createElement("img");
     cardImage2.setAttribute("src", `../images/${dealerHand[0]}.svg`);
     dealer.appendChild(cardImage2);
-  }, 700);
+  }, 600);
 
   setTimeout(() => {
     let cardImage3 = document.createElement("img");
@@ -163,19 +205,14 @@ function dealNewHand() {
     player.appendChild(cardImage3);
 
     playerText.textContent = playerTotalVal;
-  }, 1400);
+  }, 1200);
 
   setTimeout(() => {
     let cardImage4 = document.createElement("img");
     cardImage4.setAttribute("src", `../images/back.svg`);
     cardImage4.classList.add("faceDown");
     dealer.appendChild(cardImage4);
-  }, 2100);
-
-  // console.log("dealer hand is:", dealerHand);
-  // console.log("player hand is:", playerHand);
-  // console.log(evalDealerHand("evalDealerHand:", dealerHand));
-  // console.log(evalHand("regular DEALER evalHand:", dealerHand));
+  }, 1800);
 
   console.log("Dealers hand is:", dealerTotalVal);
   console.log("Player hand is:", playerTotalVal);
@@ -183,6 +220,14 @@ function dealNewHand() {
 
 function disableActionBtns() {
   newGameBtn.classList.add("btn-no-hover");
+  hitBtn.classList.add("btn-no-hover");
+  standBtn.classList.add("btn-no-hover");
+  doubleDownBtn.classList.add("btn-no-hover");
+}
+
+function disableAllActionBtns() {
+  newGameBtn.classList.add("btn-no-hover");
+  dealBtn.classList.add("btn-no-hover");
   hitBtn.classList.add("btn-no-hover");
   standBtn.classList.add("btn-no-hover");
   doubleDownBtn.classList.add("btn-no-hover");
@@ -198,7 +243,7 @@ function disableChipBtns() {
   }
 }
 
-function disableChipBtn(btnEl) {
+function disableBtn(btnEl) {
   btnEl.classList.add("btn-no-hover");
 }
 
@@ -240,10 +285,6 @@ function evalHand(hand) {
   return total;
 }
 
-function isPair(playersHand) {
-  return playersHand[0].split("_")[1] === playersHand[1].split("_")[1];
-}
-
 function isAceUnderneath(dealersHand) {
   let dealerDownCard = dealersHand[0].split("_")[1];
 
@@ -260,10 +301,23 @@ function isTenShowing(dealersHand) {
   }
 }
 
-function playerHit() {
-  // Disables double down button, since player already hit.
-  disableChipBtn(doubleDownBtn);
+function playerDoubleDown() {
+  playerNextCard();
+  disableAllActionBtns();
+  dealersTurn();
+  if (evalHand(playerHand) > 21) {
+    playerLoses();
+  }
+}
 
+function playerHit() {
+  playerNextCard();
+
+  // Disables double down button, since player already hit.
+  disableBtn(doubleDownBtn);
+}
+
+function playerNextCard() {
   let nextCard = cardShoe.shift();
   playerHand.push(nextCard);
 
@@ -276,25 +330,6 @@ function playerHit() {
   let playerTotal = evalHand(playerHand);
   updatePlayerText(playerTotal);
   console.log("new player total in PlayerHit is:", playerTotal);
-
-  if (playerTotal === 21) {
-    console.log("Player has 21! You can no longer hit.");
-  } else if (playerTotal > 21) {
-    playerOutcome.textContent = "Lost";
-    playerLoses();
-  }
-}
-
-function playerStand() {
-  let dealerTotal = evalHand(dealerHand);
-  let playerTotal = evalHand(playerHand);
-  if (playerTotal === dealerTotal) playerPushes();
-
-  if (playerTotal <= 21 && playerTotal > dealerTotal) {
-    playerWins();
-  } else {
-    playerLoses();
-  }
 }
 
 function playerLoses() {
@@ -309,8 +344,23 @@ function playerPushes() {
   enableOnlyNewGameBtn();
 }
 
+function playerStand() {
+  let dealerTotal = evalHand(dealerHand);
+  let playerTotal = evalHand(playerHand);
+
+  // if (playerTotal === dealerTotal) playerPushes();
+  dealersTurn();
+
+  // if (playerTotal <= 21 && playerTotal > dealerTotal) {
+  //   playerWins();
+  // } else {
+  //   playerLoses();
+  // }
+}
+
 function playerWins() {
   totalBalanceAmt += totalBetAmt * 2;
+  playerOutcome.textContent = "Won";
   enableOnlyNewGameBtn();
 }
 
