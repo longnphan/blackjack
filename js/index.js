@@ -8,10 +8,10 @@ const dealBtn = document.querySelector(".btn-deal");
 const dealerText = document.querySelector(".dealer-total-text");
 const doubleDownBtn = document.querySelector(".btn-doubleDown");
 const hitBtn = document.querySelector(".btn-hit");
+const newGameBtn = document.querySelector(".btn-newGame");
 const player = document.querySelector(".player-cards");
 const playerText = document.querySelector(".player-total-text");
 const playerOutcome = document.querySelector(".player-outcome");
-const splitBtn = document.querySelector(".btn-split");
 const standBtn = document.querySelector(".btn-stand");
 const cardShoe = [];
 let totalBalanceAmt = 1000;
@@ -42,6 +42,7 @@ function addBtnListeners() {
   }
 
   clearBtn.addEventListener("click", clearBet);
+  newGameBtn.addEventListener("click", reset);
   dealBtn.addEventListener("click", dealNewHand);
   hitBtn.addEventListener("click", playerHit);
   standBtn.addEventListener("click", playerStand);
@@ -91,6 +92,7 @@ function clearCards() {
   player.innerHTML = "";
   dealerText.textContent = "";
   playerText.textContent = "";
+  playerOutcome.textContent = "";
 }
 
 function dealerFlipCard() {
@@ -112,15 +114,6 @@ function dealerHit() {
   console.log("new dealer total in DealerHit is:", dealerTotal);
 }
 
-function specialCase() {
-  let dealerCard1 = dealersHand[0].split("_")[1];
-  let dealerCard2 = dealersHand[1].split("_")[1];
-  if (cardValueObj[dealerCard1] === "10" && dealerCard2 === "ace") {
-    dealerFlipCard();
-    console.log("Dealer has Blackjack! You lose");
-  }
-}
-
 function dealersTurn() {
   const faceDownCard = document.querySelector(".faceDown");
   faceDownCard.setAttribute("src", `../images/${dealerHand[1]}.svg`);
@@ -140,6 +133,7 @@ function dealNewHand() {
 
   // Enables action btns except deal btn, from disabled state when wagers are being placed.
   enableActionBtns();
+  newGameBtn.classList.add("btn-no-hover");
 
   playerHand[0] = cardShoe.shift();
   dealerHand[0] = cardShoe.shift();
@@ -188,10 +182,10 @@ function dealNewHand() {
 }
 
 function disableActionBtns() {
+  newGameBtn.classList.add("btn-no-hover");
   hitBtn.classList.add("btn-no-hover");
   standBtn.classList.add("btn-no-hover");
   doubleDownBtn.classList.add("btn-no-hover");
-  splitBtn.classList.add("btn-no-hover");
 }
 
 function disableChipBtns() {
@@ -209,10 +203,10 @@ function disableChipBtn(btnEl) {
 }
 
 function enableActionBtns() {
+  newGameBtn.classList.remove("btn-no-hover");
   hitBtn.classList.remove("btn-no-hover");
   standBtn.classList.remove("btn-no-hover");
   doubleDownBtn.classList.remove("btn-no-hover");
-  splitBtn.classList.remove("btn-no-hover");
 }
 
 function enableBtn(btnEl) {
@@ -228,6 +222,12 @@ function enableChipBtns() {
   for (let item of chipBtns) {
     item.classList.remove("btn-no-hover");
   }
+}
+
+function enableOnlyNewGameBtn() {
+  disableActionBtns();
+  dealBtn.classList.add("btn-no-hover");
+  newGameBtn.classList.remove("btn-no-hover");
 }
 
 function evalHand(hand) {
@@ -260,11 +260,6 @@ function isTenShowing(dealersHand) {
   }
 }
 
-function playerBust() {
-  updateBalance();
-  startNewHand();
-}
-
 function playerHit() {
   // Disables double down button, since player already hit.
   disableChipBtn(doubleDownBtn);
@@ -285,6 +280,7 @@ function playerHit() {
   if (playerTotal === 21) {
     console.log("Player has 21! You can no longer hit.");
   } else if (playerTotal > 21) {
+    playerOutcome.textContent = "Lost";
     playerLoses();
   }
 }
@@ -302,18 +298,24 @@ function playerStand() {
 }
 
 function playerLoses() {
-  clearCards();
-  updateBalance();
+  playerOutcome.textContent = "Lost";
+  enableOnlyNewGameBtn();
+  // reset();
 }
 
 function playerPushes() {
   console.log("PUSH");
   totalBalanceAmt += totalBetAmt;
-  updateBalance();
+  enableOnlyNewGameBtn();
 }
 
 function playerWins() {
   totalBalanceAmt += totalBetAmt * 2;
+  enableOnlyNewGameBtn();
+}
+
+function reset() {
+  clearCards();
   updateBalance();
 }
 
@@ -322,6 +324,15 @@ function shuffleCards(deck) {
   for (let i = deck.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+}
+
+function specialCase() {
+  let dealerCard1 = dealersHand[0].split("_")[1];
+  let dealerCard2 = dealersHand[1].split("_")[1];
+  if (cardValueObj[dealerCard1] === "10" && dealerCard2 === "ace") {
+    dealerFlipCard();
+    console.log("Dealer has Blackjack! You lose");
   }
 }
 
