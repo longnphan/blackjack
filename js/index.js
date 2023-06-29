@@ -327,6 +327,11 @@ function isTenShowing(dealersHand) {
   }
 }
 
+function playerBusts() {
+  dealerFlipCard();
+  playerLoses();
+}
+
 function playerDoubleDown() {
   playerNextCard();
   disableAllActionBtns();
@@ -364,12 +369,11 @@ function playersNextMove() {
   if (playerTotal === 21 && dealerTotal === 21) {
     playerPushes();
   } else if (dealerTotal === 21 && playerTotal < 21) {
-    dealerFlipCard();
-    playerLoses();
+    playerBusts();
   } else if (playerTotal === 21 && dealerTotal < 21) {
     playerWins(1.5);
   } else if (playerTotal > 21) {
-    playerLoses();
+    playerBusts();
   }
 }
 
