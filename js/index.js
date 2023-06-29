@@ -14,7 +14,7 @@ const playerText = document.querySelector(".player-total-text");
 const playerOutcome = document.querySelector(".player-outcome");
 const standBtn = document.querySelector(".btn-stand");
 const cardShoe = [];
-let totalBalanceAmt = 1000;
+let totalBalanceAmt = 500;
 let totalBetAmt = 0;
 let dealerHand = [];
 let playerHand = [];
@@ -116,15 +116,10 @@ function dealerHit() {
   console.log("new dealer total in DealerHit is:", dealerTotal);
 }
 
-function dealersTurn() {
-  const faceDownCard = document.querySelector(".faceDown");
-  faceDownCard.setAttribute("src", `../images/${dealerHand[1]}.svg`);
-  dealersNextMove();
-}
-
 function dealersNextMove() {
   let dealerTotal = evalHand(dealerHand);
   let playerTotal = evalHand(playerHand);
+  dealerText.textContent = dealerTotal;
 
   if (dealerTotal > 21) playerWins();
 
@@ -132,6 +127,7 @@ function dealersNextMove() {
     if (dealerTotal <= 21 && dealerTotal > playerTotal) {
       playerLoses();
     } else {
+      dealerFlipsCard();
       playerWins();
     }
   }
@@ -220,6 +216,22 @@ function dealNewHand() {
   playersNextMove();
 }
 
+function dealerFlipsCard() {
+  const faceDownCard = document.querySelector(".faceDown");
+  faceDownCard.setAttribute("src", `../images/${dealerHand[1]}.svg`);
+}
+
+function dealersTurn() {
+  // Flips dealer's face down card.
+  dealerFlipsCard();
+
+  if (isPush()) {
+    playerPushes();
+  } else {
+    dealersNextMove();
+  }
+}
+
 function disableActionBtns() {
   newGameBtn.classList.add("btn-no-hover");
   hitBtn.classList.add("btn-no-hover");
@@ -294,6 +306,18 @@ function isAceUnderneath(dealersHand) {
   if (dealerDownCard === "ace") console.log("Dealer has backjack");
 }
 
+function isPush() {
+  let dealerTotal = evalHand(dealerHand);
+  let playerTotal = evalHand(playerHand);
+  return (
+    dealerTotal === playerTotal &&
+    dealerTotal >= 17 &&
+    dealerTotal <= 21 &&
+    playerTotal >= 17 &&
+    playerTotal <= 21
+  );
+}
+
 function isTenShowing(dealersHand) {
   let dealerUpCard = dealersHand[0].split("_")[1];
   if (cardValueObj[dealerUpCard] === 10) {
@@ -301,6 +325,11 @@ function isTenShowing(dealersHand) {
   } else {
     return false;
   }
+}
+
+function playerBusts() {
+  dealerFlipCard();
+  playerLoses();
 }
 
 function playerDoubleDown() {
@@ -337,16 +366,19 @@ function playersNextMove() {
   let dealerTotal = evalHand(dealerHand);
   let playerTotal = evalHand(playerHand);
 
-  if (playerTotal > 21) {
-    playerLoses();
+  if (playerTotal === 21 && dealerTotal === 21) {
+    playerPushes();
+  } else if (dealerTotal === 21 && playerTotal < 21) {
+    playerBusts();
   } else if (playerTotal === 21 && dealerTotal < 21) {
-    console.log("Player has Blackjack!");
     playerWins(1.5);
+  } else if (playerTotal > 21) {
+    playerBusts();
   }
 }
 
 function playerLoses() {
-  playerOutcome.textContent = "Lost";
+  playerOutcome.textContent = "Lose";
   enableOnlyNewGameBtn();
   // reset();
 }
@@ -365,7 +397,7 @@ function playerStand() {
 function playerWins(oddsFactor = 1) {
   // pays back original bet amt + bet multiple by 1.5 for BJ or 2 for doubledown
   totalBalanceAmt += totalBetAmt + totalBetAmt * oddsFactor;
-  playerOutcome.textContent = "Won";
+  playerOutcome.textContent = "Win";
   enableOnlyNewGameBtn();
 }
 
@@ -392,6 +424,7 @@ function specialCase() {
 }
 
 function startNewHand() {
+  if (totalBalanceAmt === 0) alert("You're out of money.");
   createCardDeck();
   disableActionBtns();
   enableChipBtns();
