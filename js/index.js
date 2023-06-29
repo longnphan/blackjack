@@ -1,4 +1,4 @@
-// Variables
+// DOM Variables
 const balanceText = document.querySelector(".balance-amount");
 const betText = document.querySelector(".bet-amount");
 const chipBtns = document.querySelectorAll(".btn-chips");
@@ -13,11 +13,13 @@ const player = document.querySelector(".player-cards");
 const playerText = document.querySelector(".player-total-text");
 const playerOutcome = document.querySelector(".player-outcome");
 const standBtn = document.querySelector(".btn-stand");
+
+// Gameplay Variables
 const cardShoe = [];
-let totalBalanceAmt = 500;
-let totalBetAmt = 0;
 let dealerHand = [];
 let playerHand = [];
+let totalBalanceAmt = 500;
+let totalBetAmt = 0;
 
 const cardValueObj = {
   ace: 11,
@@ -97,7 +99,13 @@ function clearCards() {
   playerOutcome.textContent = "";
 }
 
-function dealerFlipCard() {
+function dealerFirstCard() {
+  let cardImage2 = document.createElement("img");
+  cardImage2.setAttribute("src", `../images/${dealerHand[0]}.svg`);
+  dealer.appendChild(cardImage2);
+}
+
+function dealerFlipsCard() {
   const faceDownCard = document.querySelector(".faceDown");
   faceDownCard.setAttribute("src", `../images/${dealerHand[1]}.svg`);
 }
@@ -121,18 +129,18 @@ function dealersNextMove() {
   let playerTotal = evalHand(playerHand);
   dealerText.textContent = dealerTotal;
 
-  if (dealerTotal > 21) playerWins();
-
-  if (dealerTotal >= 17) {
-    if (dealerTotal <= 21 && dealerTotal > playerTotal) {
+  if (dealerTotal > 21) {
+    playerWins();
+  } else if (dealerTotal >= 17) {
+    if (isPush()) {
+      playerPushes();
+    } else if (dealerTotal <= 21 && dealerTotal > playerTotal) {
       playerLoses();
     } else {
       dealerFlipsCard();
       playerWins();
     }
-  }
-
-  if (dealerTotal === 17) {
+  } else if (dealerTotal === 17) {
     if (dealerTotal > playerTotal) {
       playerLoses();
     } else if (dealerTotal <= 16) {
@@ -158,8 +166,7 @@ function dealerNextCard() {
 }
 
 function dealNewHand() {
-  // To-do: move dealerHand and playerHand arrs back here?
-
+  // Clears out previous hand.
   dealerHand = [];
   playerHand = [];
 
@@ -173,52 +180,21 @@ function dealNewHand() {
   enableActionBtns();
   newGameBtn.classList.add("btn-no-hover");
 
-  playerHand[0] = cardShoe.shift();
-  dealerHand[0] = cardShoe.shift();
-  playerHand[1] = cardShoe.shift();
-  dealerHand[1] = cardShoe.shift();
+  // Stores player's/dealer's first hand into their arrays.
+  storeFirstHand();
 
-  let dealerTotalVal = evalHand(dealerHand);
-  let playerTotalVal = evalHand(playerHand);
+  // Deals first set of cards to player & dealer.
+  playerFirstCard();
+  setTimeout(dealerFirstCard, 200);
+  setTimeout(playerSecondCard, 400);
+  setTimeout(dealerSecondCard, 600);
 
-  setTimeout(() => {
-    let cardImage = document.createElement("img");
-    cardImage.setAttribute("src", `../images/${playerHand[0]}.svg`);
-    cardImage.classList.add("playerFirstCard");
-    player.appendChild(cardImage);
-  }, 0);
+  // Logging for testing purposes
+  console.log("Dealers hand is:", evalHand(dealerHand));
+  console.log("Player hand is:", evalHand(playerHand));
 
-  setTimeout(() => {
-    let cardImage2 = document.createElement("img");
-    cardImage2.setAttribute("src", `../images/${dealerHand[0]}.svg`);
-    dealer.appendChild(cardImage2);
-  }, 600);
-
-  setTimeout(() => {
-    let cardImage3 = document.createElement("img");
-    cardImage3.setAttribute("src", `../images/${playerHand[1]}.svg`);
-    cardImage3.classList.add("playerSecondCard");
-    player.appendChild(cardImage3);
-
-    playerText.textContent = playerTotalVal;
-  }, 1200);
-
-  setTimeout(() => {
-    let cardImage4 = document.createElement("img");
-    cardImage4.setAttribute("src", `../images/back.svg`);
-    cardImage4.classList.add("faceDown");
-    dealer.appendChild(cardImage4);
-  }, 1800);
-
-  console.log("Dealers hand is:", dealerTotalVal);
-  console.log("Player hand is:", playerTotalVal);
-
-  playersNextMove();
-}
-
-function dealerFlipsCard() {
-  const faceDownCard = document.querySelector(".faceDown");
-  faceDownCard.setAttribute("src", `../images/${dealerHand[1]}.svg`);
+  // Checks if player/dealer has blackjack. Otherwise, play resumes.
+  playerNextMove();
 }
 
 function dealersTurn() {
@@ -230,6 +206,13 @@ function dealersTurn() {
   } else {
     dealersNextMove();
   }
+}
+
+function dealerSecondCard() {
+  let cardImage4 = document.createElement("img");
+  cardImage4.setAttribute("src", `../images/back.svg`);
+  cardImage4.classList.add("faceDown");
+  dealer.appendChild(cardImage4);
 }
 
 function disableActionBtns() {
@@ -289,21 +272,38 @@ function enableOnlyNewGameBtn() {
   newGameBtn.classList.remove("btn-no-hover");
 }
 
-function evalHand(hand) {
+function evalFirstHand(hand) {
+  // Evaluates just the first two cards for player/dealer
   let total = 0;
-  for (let item of hand) {
-    let card = item.split("_")[1];
+  for (let i = 0; i <= 1; i++) {
+    let card = hand[i].split("_")[1];
     let cardVal = cardValueObj[card];
     total += cardVal;
   }
   return total;
 }
 
-function isAceUnderneath(dealersHand) {
-  let dealerDownCard = dealersHand[0].split("_")[1];
+function evalHand(hand) {
+  let numOfAces = 0;
+  let total = 0;
 
-  // Todo: update this to losing state
-  if (dealerDownCard === "ace") console.log("Dealer has backjack");
+  for (let item of hand) {
+    let card = item.split("_")[1];
+    let cardVal = cardValueObj[card];
+
+    // Keeps track of how many aces are in player/dealer hand.
+    if (card === "ace") numOfAces++;
+
+    total += cardVal;
+  }
+  // Aces start with val of 11. If hand is over 21, 10 is subtracted from total to simulate Ace = 1.
+  while (numOfAces) {
+    if (total > 21) {
+      total -= 10;
+      numOfAces--;
+    }
+  }
+  return total;
 }
 
 function isPush() {
@@ -318,17 +318,14 @@ function isPush() {
   );
 }
 
-function isTenShowing(dealersHand) {
-  let dealerUpCard = dealersHand[0].split("_")[1];
-  if (cardValueObj[dealerUpCard] === 10) {
-    isAceUnderneath(dealersHand);
-  } else {
-    return false;
-  }
+function playerBlackjack() {
+  dealerFlipsCard();
+  playerWins(1.5);
+  playerOutcome.textContent = "Blackjack";
 }
 
 function playerBusts() {
-  dealerFlipCard();
+  dealerFlipsCard();
   playerLoses();
 }
 
@@ -339,12 +336,18 @@ function playerDoubleDown() {
   if (evalHand(playerHand) > 21) playerLoses();
 }
 
+function playerFirstCard() {
+  let cardImage = document.createElement("img");
+  cardImage.setAttribute("src", `../images/${playerHand[0]}.svg`);
+  cardImage.classList.add("playerFirstCard");
+  player.appendChild(cardImage);
+}
+
 function playerHit() {
   // Disables double down button, since player already hit.
   disableBtn(doubleDownBtn);
 
   playerNextCard();
-  playersNextMove();
 }
 
 function playerNextCard() {
@@ -360,34 +363,58 @@ function playerNextCard() {
   let playerTotal = evalHand(playerHand);
   updatePlayerText(playerTotal);
   console.log("new player total in PlayerHit is:", playerTotal);
-}
-
-function playersNextMove() {
-  let dealerTotal = evalHand(dealerHand);
-  let playerTotal = evalHand(playerHand);
-
-  if (playerTotal === 21 && dealerTotal === 21) {
-    playerPushes();
-  } else if (dealerTotal === 21 && playerTotal < 21) {
-    playerBusts();
-  } else if (playerTotal === 21 && dealerTotal < 21) {
-    playerWins(1.5);
-  } else if (playerTotal > 21) {
-    playerBusts();
-  }
+  playerNextMove();
 }
 
 function playerLoses() {
   playerOutcome.textContent = "Lose";
   enableOnlyNewGameBtn();
-  // reset();
+
+  // Updates dealers value text if player busts.
+  let dealerTotal = evalHand(dealerHand);
+  dealerText.textContent = dealerTotal;
+}
+
+function playerNextMove() {
+  let dealerInitTotal = evalFirstHand(dealerHand);
+  let playerInitTotal = evalFirstHand(playerHand);
+  let dealerTotal = evalHand(dealerHand);
+  let playerTotal = evalHand(playerHand);
+
+  console.log("Player init value is:", playerInitTotal);
+  console.log("Dealer init value is:", dealerInitTotal);
+
+  // BJ gets evaluated before dealer face down card is flipped w/o setTimeout.
+  if (playerTotal === 21 && dealerTotal === 21) {
+    setTimeout(playerPushes, 800);
+  } else if (dealerInitTotal === 21 && playerInitTotal < 21) {
+    setTimeout(playerBusts, 800);
+  } else if (playerInitTotal === 21 && dealerInitTotal < 21) {
+    setTimeout(playerBlackjack, 800);
+  } else if (playerTotal === 21 && dealerInitTotal < 21) {
+    dealersTurn();
+  } else if (playerTotal > 21) {
+    playerBusts();
+  }
 }
 
 function playerPushes() {
   console.log("PUSH");
+  dealerFlipsCard();
   totalBalanceAmt += totalBetAmt;
   playerOutcome.textContent = "Push";
   enableOnlyNewGameBtn();
+}
+
+function playerSecondCard() {
+  let cardImage3 = document.createElement("img");
+  cardImage3.setAttribute("src", `../images/${playerHand[1]}.svg`);
+  cardImage3.classList.add("playerSecondCard");
+  player.appendChild(cardImage3);
+
+  // Player's total card val is displayed after 2nd card is dealt
+  let playerTotalVal = evalHand(playerHand);
+  playerText.textContent = playerTotalVal;
 }
 
 function playerStand() {
@@ -418,7 +445,7 @@ function specialCase() {
   let dealerCard1 = dealersHand[0].split("_")[1];
   let dealerCard2 = dealersHand[1].split("_")[1];
   if (cardValueObj[dealerCard1] === "10" && dealerCard2 === "ace") {
-    dealerFlipCard();
+    dealerFlipsCard();
     console.log("Dealer has Blackjack! You lose");
   }
 }
@@ -429,6 +456,14 @@ function startNewHand() {
   disableActionBtns();
   enableChipBtns();
   enableBtn(dealBtn);
+}
+
+function storeFirstHand() {
+  // Stores player's and dealer's first hand into their arrays.
+  playerHand[0] = cardShoe.shift();
+  dealerHand[0] = cardShoe.shift();
+  playerHand[1] = cardShoe.shift();
+  dealerHand[1] = cardShoe.shift();
 }
 
 function updateBalance() {
