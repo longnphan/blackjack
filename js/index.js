@@ -284,11 +284,24 @@ function evalFirstHand(hand) {
 }
 
 function evalHand(hand) {
+  let numOfAces = 0;
   let total = 0;
+
   for (let item of hand) {
     let card = item.split("_")[1];
     let cardVal = cardValueObj[card];
+
+    // Keeps track of how many aces are in player/dealer hand.
+    if (card === "ace") numOfAces++;
+
     total += cardVal;
+  }
+  // Aces start with val of 11. If hand is over 21, 10 is subtracted from total to simulate Ace = 1.
+  while (numOfAces) {
+    if (total > 21) {
+      total -= 10;
+      numOfAces--;
+    }
   }
   return total;
 }
@@ -371,12 +384,12 @@ function playerNextMove() {
   console.log("Player init value is:", playerInitTotal);
   console.log("Dealer init value is:", dealerInitTotal);
 
+  // BJ gets evaluated before dealer face down card is flipped w/o setTimeout.
   if (playerTotal === 21 && dealerTotal === 21) {
-    playerPushes();
+    setTimeout(playerPushes, 800);
   } else if (dealerInitTotal === 21 && playerInitTotal < 21) {
-    playerBusts();
+    setTimeout(playerBusts, 800);
   } else if (playerInitTotal === 21 && dealerInitTotal < 21) {
-    // BJ gets evaluated before dealer face down card is flipped w/o setTimeout.
     setTimeout(playerBlackjack, 800);
   } else if (playerTotal === 21 && dealerInitTotal < 21) {
     dealersTurn();
@@ -387,6 +400,7 @@ function playerNextMove() {
 
 function playerPushes() {
   console.log("PUSH");
+  dealerFlipsCard();
   totalBalanceAmt += totalBetAmt;
   playerOutcome.textContent = "Push";
   enableOnlyNewGameBtn();
