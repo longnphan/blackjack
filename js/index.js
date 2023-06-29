@@ -131,7 +131,20 @@ function dealerHit() {
   console.log("new dealer total in DealerHit is:", dealerTotal);
 }
 
-function dealersNextMove() {
+function dealerNextCard() {
+  let nextCard = cardShoe.shift();
+  dealerHand.push(nextCard);
+
+  // Adds new card to dealer hand
+  let cardImage = document.createElement("img");
+  cardImage.setAttribute("src", `../images/${nextCard}.svg`);
+  dealer.appendChild(cardImage);
+
+  let dealerTotal = evalHand(dealerHand);
+  console.log("new dealer total in DealerHit is:", dealerTotal);
+}
+
+function dealerNextMove() {
   let dealerTotal = evalHand(dealerHand);
   let playerTotal = evalHand(playerHand);
   dealerText.textContent = dealerTotal;
@@ -155,21 +168,8 @@ function dealersNextMove() {
     }
   } else if (dealerTotal < 17) {
     dealerNextCard();
-    dealersNextMove();
+    dealerNextMove();
   }
-}
-
-function dealerNextCard() {
-  let nextCard = cardShoe.shift();
-  dealerHand.push(nextCard);
-
-  // Adds new card to dealer hand
-  let cardImage = document.createElement("img");
-  cardImage.setAttribute("src", `../images/${nextCard}.svg`);
-  dealer.appendChild(cardImage);
-
-  let dealerTotal = evalHand(dealerHand);
-  console.log("new dealer total in DealerHit is:", dealerTotal);
 }
 
 function dealNewHand() {
@@ -211,7 +211,7 @@ function dealersTurn() {
   if (isPush()) {
     playerPushes();
   } else {
-    dealersNextMove();
+    dealerNextMove();
   }
 }
 
@@ -325,7 +325,7 @@ function isPush() {
 function playerBlackjack() {
   dealerFlipsCard();
   playerWins(1.5);
-  playerOutcome.textContent = "Blackjack";
+  playerOutcome.textContent = "BJ!";
 }
 
 function playerBusts() {
