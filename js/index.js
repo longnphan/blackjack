@@ -280,13 +280,6 @@ function evalHand(hand) {
   return total;
 }
 
-function isAceUnderneath(dealersHand) {
-  let dealerDownCard = dealersHand[0].split("_")[1];
-
-  // Todo: update this to losing state
-  if (dealerDownCard === "ace") console.log("Dealer has backjack");
-}
-
 function isPush() {
   let dealerTotal = evalHand(dealerHand);
   let playerTotal = evalHand(playerHand);
