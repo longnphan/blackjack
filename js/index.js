@@ -14,7 +14,7 @@ const playerText = document.querySelector(".player-total-text");
 const playerOutcome = document.querySelector(".player-outcome");
 const standBtn = document.querySelector(".btn-stand");
 const cardShoe = [];
-let totalBalanceAmt = 1000;
+let totalBalanceAmt = 500;
 let totalBetAmt = 0;
 let dealerHand = [];
 let playerHand = [];
@@ -127,6 +127,7 @@ function dealersNextMove() {
     if (dealerTotal <= 21 && dealerTotal > playerTotal) {
       playerLoses();
     } else {
+      dealerFlipsCard();
       playerWins();
     }
   }
@@ -306,7 +307,6 @@ function isAceUnderneath(dealersHand) {
 }
 
 function isPush() {
-  console.log("Is inside isPush");
   let dealerTotal = evalHand(dealerHand);
   let playerTotal = evalHand(playerHand);
   return (
