@@ -1,4 +1,4 @@
-// Variables
+// DOM Variables
 const balanceText = document.querySelector(".balance-amount");
 const betText = document.querySelector(".bet-amount");
 const chipBtns = document.querySelectorAll(".btn-chips");
@@ -13,11 +13,13 @@ const player = document.querySelector(".player-cards");
 const playerText = document.querySelector(".player-total-text");
 const playerOutcome = document.querySelector(".player-outcome");
 const standBtn = document.querySelector(".btn-stand");
+
+// Gameplay Variables
 const cardShoe = [];
-let totalBalanceAmt = 500;
-let totalBetAmt = 0;
 let dealerHand = [];
 let playerHand = [];
+let totalBalanceAmt = 500;
+let totalBetAmt = 0;
 
 const cardValueObj = {
   ace: 11,
@@ -127,18 +129,18 @@ function dealersNextMove() {
   let playerTotal = evalHand(playerHand);
   dealerText.textContent = dealerTotal;
 
-  if (dealerTotal > 21) playerWins();
-
-  if (dealerTotal >= 17) {
-    if (dealerTotal <= 21 && dealerTotal > playerTotal) {
+  if (dealerTotal > 21) {
+    playerWins();
+  } else if (dealerTotal >= 17) {
+    if (isPush()) {
+      playerPushes();
+    } else if (dealerTotal <= 21 && dealerTotal > playerTotal) {
       playerLoses();
     } else {
       dealerFlipsCard();
       playerWins();
     }
-  }
-
-  if (dealerTotal === 17) {
+  } else if (dealerTotal === 17) {
     if (dealerTotal > playerTotal) {
       playerLoses();
     } else if (dealerTotal <= 16) {
@@ -183,16 +185,16 @@ function dealNewHand() {
 
   // Deals first set of cards to player & dealer.
   playerFirstCard();
-  setTimeout(dealerFirstCard, 500);
-  setTimeout(playerSecondCard, 1000);
-  setTimeout(dealerSecondCard, 1500);
+  setTimeout(dealerFirstCard, 200);
+  setTimeout(playerSecondCard, 400);
+  setTimeout(dealerSecondCard, 600);
 
   // Logging for testing purposes
   console.log("Dealers hand is:", evalHand(dealerHand));
   console.log("Player hand is:", evalHand(playerHand));
 
   // Checks if player/dealer has blackjack. Otherwise, play resumes.
-  playersNextMove();
+  playerNextMove();
 }
 
 function dealersTurn() {
@@ -270,6 +272,17 @@ function enableOnlyNewGameBtn() {
   newGameBtn.classList.remove("btn-no-hover");
 }
 
+function evalFirstHand(hand) {
+  // Evaluates just the first two cards for player/dealer
+  let total = 0;
+  for (let i = 0; i <= 1; i++) {
+    let card = hand[i].split("_")[1];
+    let cardVal = cardValueObj[card];
+    total += cardVal;
+  }
+  return total;
+}
+
 function evalHand(hand) {
   let total = 0;
   for (let item of hand) {
@@ -290,6 +303,12 @@ function isPush() {
     playerTotal >= 17 &&
     playerTotal <= 21
   );
+}
+
+function playerBlackjack() {
+  dealerFlipsCard();
+  playerWins(1.5);
+  playerOutcome.textContent = "Blackjack";
 }
 
 function playerBusts() {
@@ -316,7 +335,6 @@ function playerHit() {
   disableBtn(doubleDownBtn);
 
   playerNextCard();
-  playersNextMove();
 }
 
 function playerNextCard() {
@@ -332,28 +350,39 @@ function playerNextCard() {
   let playerTotal = evalHand(playerHand);
   updatePlayerText(playerTotal);
   console.log("new player total in PlayerHit is:", playerTotal);
-}
-
-function playersNextMove() {
-  let dealerTotal = evalHand(dealerHand);
-  let playerTotal = evalHand(playerHand);
-
-  if (playerTotal === 21 && dealerTotal === 21) {
-    playerPushes();
-  } else if (dealerTotal === 21 && playerTotal < 21) {
-    playerBusts();
-  } else if (playerTotal === 21 && dealerTotal < 21) {
-    dealerFlipsCard()
-    playerWins(1.5);
-  } else if (playerTotal > 21) {
-    playerBusts();
-  }
+  playerNextMove();
 }
 
 function playerLoses() {
   playerOutcome.textContent = "Lose";
   enableOnlyNewGameBtn();
-  // reset();
+
+  // Updates dealers value text if player busts.
+  let dealerTotal = evalHand(dealerHand);
+  dealerText.textContent = dealerTotal;
+}
+
+function playerNextMove() {
+  let dealerInitTotal = evalFirstHand(dealerHand);
+  let playerInitTotal = evalFirstHand(playerHand);
+  let dealerTotal = evalHand(dealerHand);
+  let playerTotal = evalHand(playerHand);
+
+  console.log("Player init value is:", playerInitTotal);
+  console.log("Dealer init value is:", dealerInitTotal);
+
+  if (playerTotal === 21 && dealerTotal === 21) {
+    playerPushes();
+  } else if (dealerInitTotal === 21 && playerInitTotal < 21) {
+    playerBusts();
+  } else if (playerInitTotal === 21 && dealerInitTotal < 21) {
+    // BJ gets evaluated before dealer face down card is flipped w/o setTimeout.
+    setTimeout(playerBlackjack, 800);
+  } else if (playerTotal === 21 && dealerInitTotal < 21) {
+    dealersTurn();
+  } else if (playerTotal > 21) {
+    playerBusts();
+  }
 }
 
 function playerPushes() {
