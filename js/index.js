@@ -97,15 +97,15 @@ function clearCards() {
   playerOutcome.textContent = "";
 }
 
-function dealerFlipCard() {
-  const faceDownCard = document.querySelector(".faceDown");
-  faceDownCard.setAttribute("src", `../images/${dealerHand[1]}.svg`);
-}
-
 function dealerFirstCard() {
   let cardImage2 = document.createElement("img");
   cardImage2.setAttribute("src", `../images/${dealerHand[0]}.svg`);
   dealer.appendChild(cardImage2);
+}
+
+function dealerFlipsCard() {
+  const faceDownCard = document.querySelector(".faceDown");
+  faceDownCard.setAttribute("src", `../images/${dealerHand[1]}.svg`);
 }
 
 function dealerHit() {
@@ -164,8 +164,7 @@ function dealerNextCard() {
 }
 
 function dealNewHand() {
-  // To-do: move dealerHand and playerHand arrs back here?
-
+  // Clears out previous hand.
   dealerHand = [];
   playerHand = [];
 
@@ -179,7 +178,7 @@ function dealNewHand() {
   enableActionBtns();
   newGameBtn.classList.add("btn-no-hover");
 
-  // Stores player's and dealer's first hand into their arrays.
+  // Stores player's/dealer's first hand into their arrays.
   storeFirstHand();
 
   // Deals first set of cards to player & dealer.
@@ -194,11 +193,6 @@ function dealNewHand() {
 
   // Checks if player/dealer has blackjack. Otherwise, play resumes.
   playersNextMove();
-}
-
-function dealerFlipsCard() {
-  const faceDownCard = document.querySelector(".faceDown");
-  faceDownCard.setAttribute("src", `../images/${dealerHand[1]}.svg`);
 }
 
 function dealersTurn() {
@@ -305,17 +299,8 @@ function isPush() {
   );
 }
 
-function isTenShowing(dealersHand) {
-  let dealerUpCard = dealersHand[0].split("_")[1];
-  if (cardValueObj[dealerUpCard] === 10) {
-    isAceUnderneath(dealersHand);
-  } else {
-    return false;
-  }
-}
-
 function playerBusts() {
-  dealerFlipCard();
+  dealerFlipsCard();
   playerLoses();
 }
 
@@ -365,6 +350,7 @@ function playersNextMove() {
   } else if (dealerTotal === 21 && playerTotal < 21) {
     playerBusts();
   } else if (playerTotal === 21 && dealerTotal < 21) {
+    dealerFlipsCard()
     playerWins(1.5);
   } else if (playerTotal > 21) {
     playerBusts();
@@ -423,7 +409,7 @@ function specialCase() {
   let dealerCard1 = dealersHand[0].split("_")[1];
   let dealerCard2 = dealersHand[1].split("_")[1];
   if (cardValueObj[dealerCard1] === "10" && dealerCard2 === "ace") {
-    dealerFlipCard();
+    dealerFlipsCard();
     console.log("Dealer has Blackjack! You lose");
   }
 }
