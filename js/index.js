@@ -297,11 +297,9 @@ function evalHand(hand) {
     total += cardVal;
   }
   // Aces start with val of 11. If hand is over 21, 10 is subtracted from total to simulate Ace = 1.
-  while (numOfAces) {
-    if (total > 21) {
-      total -= 10;
-      numOfAces--;
-    }
+  while (numOfAces && total > 21) {
+    total -= 10;
+    numOfAces--;
   }
   return total;
 }
