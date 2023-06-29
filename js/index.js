@@ -131,7 +131,20 @@ function dealerHit() {
   console.log("new dealer total in DealerHit is:", dealerTotal);
 }
 
-function dealersNextMove() {
+function dealerNextCard() {
+  let nextCard = cardShoe.shift();
+  dealerHand.push(nextCard);
+
+  // Adds new card to dealer hand
+  let cardImage = document.createElement("img");
+  cardImage.setAttribute("src", `../images/${nextCard}.svg`);
+  dealer.appendChild(cardImage);
+
+  let dealerTotal = evalHand(dealerHand);
+  console.log("new dealer total in DealerHit is:", dealerTotal);
+}
+
+function dealerNextMove() {
   let dealerTotal = evalHand(dealerHand);
   let playerTotal = evalHand(playerHand);
   dealerText.textContent = dealerTotal;
@@ -155,21 +168,8 @@ function dealersNextMove() {
     }
   } else if (dealerTotal < 17) {
     dealerNextCard();
-    dealersNextMove();
+    dealerNextMove();
   }
-}
-
-function dealerNextCard() {
-  let nextCard = cardShoe.shift();
-  dealerHand.push(nextCard);
-
-  // Adds new card to dealer hand
-  let cardImage = document.createElement("img");
-  cardImage.setAttribute("src", `../images/${nextCard}.svg`);
-  dealer.appendChild(cardImage);
-
-  let dealerTotal = evalHand(dealerHand);
-  console.log("new dealer total in DealerHit is:", dealerTotal);
 }
 
 function dealNewHand() {
@@ -211,7 +211,7 @@ function dealersTurn() {
   if (isPush()) {
     playerPushes();
   } else {
-    dealersNextMove();
+    dealerNextMove();
   }
 }
 
@@ -325,7 +325,7 @@ function isPush() {
 function playerBlackjack() {
   dealerFlipsCard();
   playerWins(1.5);
-  playerOutcome.textContent = "Blackjack";
+  playerOutcome.textContent = "BJ!";
 }
 
 function playerBusts() {
@@ -334,11 +334,19 @@ function playerBusts() {
 }
 
 function playerDoubleDown() {
-  isDoubleDown = true;
+  // Updates balance to account for double down bet.
+  totalBalanceAmt -= totalBetAmt;
+  totalBetAmt = totalBetAmt * 2;
+
+  renderStats();
   playerNextCard();
   disableAllActionBtns();
-  dealersTurn();
-  if (evalHand(playerHand) > 21) playerLoses();
+
+  if (evalHand(playerHand) > 21) {
+    playerLoses();
+  } else {
+    dealersTurn();
+  }
 }
 
 function playerFirstCard() {
@@ -431,15 +439,16 @@ function playerStand() {
 }
 
 function playerWins(oddsFactor = 1) {
-  if (isDoubleDown) {
-    totalBalanceAmt += totalBetAmt + totalBetAmt * oddsFactor;
-  } else {
-    // pays back original bet amt + bet multiple by 1.5 for blackjack.
-    totalBalanceAmt += totalBetAmt + totalBetAmt * oddsFactor;
-  }
+  // pays back original bet amt + bet multiple by 1.5 for blackjack.
+  totalBalanceAmt += totalBetAmt + totalBetAmt * oddsFactor;
+
   playerOutcome.textContent = "Win";
-  isDoubleDown = false;
   enableOnlyNewGameBtn();
+}
+
+function renderStats() {
+  betText.textContent = `$${totalBetAmt}`;
+  balanceText.textContent = `$${totalBalanceAmt}`;
 }
 
 function reset() {
@@ -482,8 +491,7 @@ function storeFirstHand() {
 
 function updateBalance() {
   totalBetAmt = 0;
-  betText.textContent = `$${totalBetAmt}`;
-  balanceText.textContent = `$${totalBalanceAmt}`;
+  renderStats();
   clearCards();
   startNewHand();
 }
