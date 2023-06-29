@@ -17,6 +17,7 @@ const standBtn = document.querySelector(".btn-stand");
 // Gameplay Variables
 const cardShoe = [];
 let dealerHand = [];
+let isDoubleDown = false;
 let playerHand = [];
 let totalBalanceAmt = 500;
 let totalBetAmt = 0;
@@ -72,6 +73,9 @@ function calcBetAmt() {
 function chipValue(event) {
   let chipValue = Number(event.target.textContent);
 
+  // Enables deal btn when totalBetAmt > 0
+  dealBtn.classList.remove("btn-no-hover");
+
   // Can't place bet if balance is 0.
   if (totalBalanceAmt - chipValue >= 0) {
     totalBetAmt += chipValue;
@@ -84,6 +88,9 @@ function chipValue(event) {
 }
 
 function clearBet() {
+  // Disables deal btn
+  dealBtn.classList.add("btn-no-hover");
+
   totalBalanceAmt += totalBetAmt;
   totalBetAmt = 0;
   betText.textContent = `$${totalBetAmt}`;
@@ -267,8 +274,7 @@ function enableChipBtns() {
 }
 
 function enableOnlyNewGameBtn() {
-  disableActionBtns();
-  dealBtn.classList.add("btn-no-hover");
+  disableAllActionBtns();
   newGameBtn.classList.remove("btn-no-hover");
 }
 
@@ -328,6 +334,7 @@ function playerBusts() {
 }
 
 function playerDoubleDown() {
+  isDoubleDown = true;
   playerNextCard();
   disableAllActionBtns();
   dealersTurn();
@@ -382,6 +389,10 @@ function playerNextMove() {
   console.log("Player init value is:", playerInitTotal);
   console.log("Dealer init value is:", dealerInitTotal);
 
+  // Disables Double down btn if player does not have enough money.
+  if (totalBalanceAmt < totalBetAmt)
+    doubleDownBtn.classList.add("btn-no-hover");
+
   // BJ gets evaluated before dealer face down card is flipped w/o setTimeout.
   if (playerTotal === 21 && dealerTotal === 21) {
     setTimeout(playerPushes, 800);
@@ -420,9 +431,14 @@ function playerStand() {
 }
 
 function playerWins(oddsFactor = 1) {
-  // pays back original bet amt + bet multiple by 1.5 for BJ or 2 for doubledown
-  totalBalanceAmt += totalBetAmt + totalBetAmt * oddsFactor;
+  if (isDoubleDown) {
+    totalBalanceAmt += totalBetAmt + totalBetAmt * oddsFactor;
+  } else {
+    // pays back original bet amt + bet multiple by 1.5 for blackjack.
+    totalBalanceAmt += totalBetAmt + totalBetAmt * oddsFactor;
+  }
   playerOutcome.textContent = "Win";
+  isDoubleDown = false;
   enableOnlyNewGameBtn();
 }
 
@@ -439,21 +455,21 @@ function shuffleCards(deck) {
   }
 }
 
-function specialCase() {
-  let dealerCard1 = dealersHand[0].split("_")[1];
-  let dealerCard2 = dealersHand[1].split("_")[1];
-  if (cardValueObj[dealerCard1] === "10" && dealerCard2 === "ace") {
-    dealerFlipsCard();
-    console.log("Dealer has Blackjack! You lose");
-  }
+function startBrandNewGame() {
+  // Occurs when player has lost all their money.
+  alert("You're out of money. Here's a $500 loan.");
+  totalBalanceAmt = 500;
+  balanceText.textContent = `$${totalBalanceAmt}`;
 }
 
 function startNewHand() {
-  if (totalBalanceAmt === 0) alert("You're out of money.");
+  if (totalBalanceAmt === 0) {
+    startBrandNewGame();
+  }
   createCardDeck();
   disableActionBtns();
   enableChipBtns();
-  enableBtn(dealBtn);
+  dealBtn.classList.add("btn-no-hover");
 }
 
 function storeFirstHand() {
