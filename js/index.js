@@ -128,7 +128,6 @@ function dealerHit() {
 
   // Recalculates player new total.
   let dealerTotal = evalHand(dealerHand);
-  console.log("new dealer total in DealerHit is:", dealerTotal);
 }
 
 function dealerNextCard() {
@@ -141,7 +140,6 @@ function dealerNextCard() {
   dealer.appendChild(cardImage);
 
   let dealerTotal = evalHand(dealerHand);
-  console.log("new dealer total in DealerHit is:", dealerTotal);
 }
 
 function dealerNextMove() {
@@ -195,10 +193,6 @@ function dealNewHand() {
   setTimeout(dealerFirstCard, 200);
   setTimeout(playerSecondCard, 400);
   setTimeout(dealerSecondCard, 600);
-
-  // Logging for testing purposes
-  console.log("Dealers hand is:", evalHand(dealerHand));
-  console.log("Player hand is:", evalHand(playerHand));
 
   // Checks if player/dealer has blackjack. Otherwise, play resumes.
   playerNextMove();
@@ -375,7 +369,6 @@ function playerNextCard() {
   // Recalculates player new total.
   let playerTotal = evalHand(playerHand);
   updatePlayerText(playerTotal);
-  console.log("new player total in PlayerHit is:", playerTotal);
   playerNextMove();
 }
 
@@ -393,9 +386,6 @@ function playerNextMove() {
   let playerInitTotal = evalFirstHand(playerHand);
   let dealerTotal = evalHand(dealerHand);
   let playerTotal = evalHand(playerHand);
-
-  console.log("Player init value is:", playerInitTotal);
-  console.log("Dealer init value is:", dealerInitTotal);
 
   // Disables Double down btn if player does not have enough money.
   if (totalBalanceAmt < totalBetAmt)
@@ -416,7 +406,6 @@ function playerNextMove() {
 }
 
 function playerPushes() {
-  console.log("PUSH");
   dealerFlipsCard();
   totalBalanceAmt += totalBetAmt;
   playerOutcome.textContent = "Push";
@@ -466,7 +455,7 @@ function shuffleCards(deck) {
 
 function startBrandNewGame() {
   // Occurs when player has lost all their money.
-  alert("You're out of money. Here's a $500 loan.");
+  alert("You're out of money. Here's $500.");
   totalBalanceAmt = 500;
   balanceText.textContent = `$${totalBalanceAmt}`;
 }
