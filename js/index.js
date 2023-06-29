@@ -428,7 +428,7 @@ function playerStand() {
 }
 
 function playerWins(oddsFactor = 1) {
-  // pays back original bet amt + bet multiple by 1.5 for blackjack.
+  // oddsFactor will be 1.5 for blackjack.
   totalBalanceAmt += totalBetAmt + totalBetAmt * oddsFactor;
 
   playerOutcome.textContent = "Win";
