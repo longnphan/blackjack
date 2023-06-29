@@ -102,6 +102,12 @@ function dealerFlipCard() {
   faceDownCard.setAttribute("src", `../images/${dealerHand[1]}.svg`);
 }
 
+function dealerFirstCard() {
+  let cardImage2 = document.createElement("img");
+  cardImage2.setAttribute("src", `../images/${dealerHand[0]}.svg`);
+  dealer.appendChild(cardImage2);
+}
+
 function dealerHit() {
   let nextCard = cardShoe.shift();
   dealerHand.push(nextCard);
@@ -173,46 +179,20 @@ function dealNewHand() {
   enableActionBtns();
   newGameBtn.classList.add("btn-no-hover");
 
-  playerHand[0] = cardShoe.shift();
-  dealerHand[0] = cardShoe.shift();
-  playerHand[1] = cardShoe.shift();
-  dealerHand[1] = cardShoe.shift();
+  // Stores player's and dealer's first hand into their arrays.
+  storeFirstHand();
 
-  let dealerTotalVal = evalHand(dealerHand);
-  let playerTotalVal = evalHand(playerHand);
+  // Deals first set of cards to player & dealer.
+  playerFirstCard();
+  setTimeout(dealerFirstCard, 500);
+  setTimeout(playerSecondCard, 1000);
+  setTimeout(dealerSecondCard, 1500);
 
-  setTimeout(() => {
-    let cardImage = document.createElement("img");
-    cardImage.setAttribute("src", `../images/${playerHand[0]}.svg`);
-    cardImage.classList.add("playerFirstCard");
-    player.appendChild(cardImage);
-  }, 0);
+  // Logging for testing purposes
+  console.log("Dealers hand is:", evalHand(dealerHand));
+  console.log("Player hand is:", evalHand(playerHand));
 
-  setTimeout(() => {
-    let cardImage2 = document.createElement("img");
-    cardImage2.setAttribute("src", `../images/${dealerHand[0]}.svg`);
-    dealer.appendChild(cardImage2);
-  }, 600);
-
-  setTimeout(() => {
-    let cardImage3 = document.createElement("img");
-    cardImage3.setAttribute("src", `../images/${playerHand[1]}.svg`);
-    cardImage3.classList.add("playerSecondCard");
-    player.appendChild(cardImage3);
-
-    playerText.textContent = playerTotalVal;
-  }, 1200);
-
-  setTimeout(() => {
-    let cardImage4 = document.createElement("img");
-    cardImage4.setAttribute("src", `../images/back.svg`);
-    cardImage4.classList.add("faceDown");
-    dealer.appendChild(cardImage4);
-  }, 1800);
-
-  console.log("Dealers hand is:", dealerTotalVal);
-  console.log("Player hand is:", playerTotalVal);
-
+  // Checks if player/dealer has blackjack. Otherwise, play resumes.
   playersNextMove();
 }
 
@@ -230,6 +210,13 @@ function dealersTurn() {
   } else {
     dealersNextMove();
   }
+}
+
+function dealerSecondCard() {
+  let cardImage4 = document.createElement("img");
+  cardImage4.setAttribute("src", `../images/back.svg`);
+  cardImage4.classList.add("faceDown");
+  dealer.appendChild(cardImage4);
 }
 
 function disableActionBtns() {
@@ -339,6 +326,13 @@ function playerDoubleDown() {
   if (evalHand(playerHand) > 21) playerLoses();
 }
 
+function playerFirstCard() {
+  let cardImage = document.createElement("img");
+  cardImage.setAttribute("src", `../images/${playerHand[0]}.svg`);
+  cardImage.classList.add("playerFirstCard");
+  player.appendChild(cardImage);
+}
+
 function playerHit() {
   // Disables double down button, since player already hit.
   disableBtn(doubleDownBtn);
@@ -390,6 +384,17 @@ function playerPushes() {
   enableOnlyNewGameBtn();
 }
 
+function playerSecondCard() {
+  let cardImage3 = document.createElement("img");
+  cardImage3.setAttribute("src", `../images/${playerHand[1]}.svg`);
+  cardImage3.classList.add("playerSecondCard");
+  player.appendChild(cardImage3);
+
+  // Player's total card val is displayed after 2nd card is dealt
+  let playerTotalVal = evalHand(playerHand);
+  playerText.textContent = playerTotalVal;
+}
+
 function playerStand() {
   dealersTurn();
 }
@@ -429,6 +434,14 @@ function startNewHand() {
   disableActionBtns();
   enableChipBtns();
   enableBtn(dealBtn);
+}
+
+function storeFirstHand() {
+  // Stores player's and dealer's first hand into their arrays.
+  playerHand[0] = cardShoe.shift();
+  dealerHand[0] = cardShoe.shift();
+  playerHand[1] = cardShoe.shift();
+  dealerHand[1] = cardShoe.shift();
 }
 
 function updateBalance() {
