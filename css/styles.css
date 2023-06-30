@@ -56,7 +56,7 @@ body {
 }
 
 .btn-no-hover {
-  filter: brightness(25%);
+  opacity: 0.2;
   pointer-events: none;
 }
 
@@ -70,8 +70,8 @@ body {
 
 .chips-container {
   display: flex;
-  justify-content: start;
-  padding-left: 1rem;
+  justify-content: end;
+  padding-right: 1rem;
 }
 
 .dealer-card-container {
@@ -107,7 +107,7 @@ footer {
 }
 
 .footer-container {
-  border-top: 2px black solid;
+  border-top: 2px rgb(145, 138, 138) solid;
   display: grid;
   grid-template-columns: 37.5% 25% 37.5%;
 
@@ -128,8 +128,8 @@ img {
 
 .player-actions-container {
   display: flex;
-  justify-content: end;
-  padding-right: 1rem;
+  justify-content: start;
+  padding-left: 1rem;
 }
 
 .player-card-container {
@@ -167,10 +167,9 @@ img {
 
 .stats-container {
   align-items: center;
-  border-left: 2px black solid;
-  border-right: 2px black solid;
+  border-left: 2px rgb(145, 138, 138) solid;
+  border-right: 2px rgb(145, 138, 138) solid;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
-  padding: 0 4rem;
+  justify-content: center;
 }
