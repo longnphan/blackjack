@@ -71,7 +71,7 @@ function calcBetAmt() {
 }
 
 function chipValue(event) {
-  let chipValue = Number(event.target.textContent);
+  let chipValue = Number(event.target.dataset.val);
 
   // Enables deal btn when totalBetAmt > 0
   dealBtn.classList.remove("btn-no-hover");
