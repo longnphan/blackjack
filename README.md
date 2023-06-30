@@ -31,7 +31,7 @@ buttons located on the lower left area of the screen:
 
 ---
 
-4. After you complete a hand, click the ***New Game*** button to start a new game. Repeat Step 1 to start a new hand.<img width="900" alt="image" src="https://github.com/longnphan/blackjack/assets/67768035/803bb038-1ae4-4212-bf0c-355cf4330e68">
+4. After you complete a hand, click the ***New Game*** button at the bottom of the sceen to start a new game. Repeat Step 1 to start a new hand.<img width="900" alt="image" src="https://github.com/longnphan/blackjack/assets/67768035/803bb038-1ae4-4212-bf0c-355cf4330e68">
 
 ---
 5. Blackjack pays 1.5 times. If you and the dealer get blackjack, it is considered a push.
