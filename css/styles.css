@@ -8,6 +8,7 @@ body {
   background-image: url("../images/table-bg.png");
   background-repeat: no-repeat;
   background-size: cover;
+  color: white;
   height: 100vh;
   position: relative;
 }
@@ -30,8 +31,9 @@ body {
 
 .btn {
   background-color: #60686c;
-  border: 2px solid black;
+  border: 2px solid rgb(145, 138, 138);
   border-radius: 100%;
+  color: white;
   cursor: pointer;
   height: 80px;
   margin: 4px;
@@ -42,15 +44,15 @@ body {
   transform: scale(1.14);
 }
 .btn-chips:hover {
-  background-color: rgb(247, 65, 65);
+  background-color: rgb(5, 118, 5);
 }
 
 .btn-clear {
-  background-color: rgb(252, 96, 96);
+  background-color: rgb(145, 3, 3);
 }
 
 .btn-clear:hover {
-  background-color: white;
+  background-color: rgb(27, 26, 26);
 }
 
 .btn-no-hover {
@@ -59,11 +61,11 @@ body {
 }
 
 .btn-player-actions {
-  background-color: rgb(55, 54, 54);
+  background-color: rgb(42, 44, 46);
 }
 
 .btn-player-actions:hover {
-  background-color: lightgreen;
+  background-color: darkgreen;
 }
 
 .chips-container {
