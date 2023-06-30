@@ -108,13 +108,19 @@ function clearCards() {
 
 function dealerFirstCard() {
   let cardImage2 = document.createElement("img");
-  cardImage2.setAttribute("src", `../images/${dealerHand[0]}.svg`);
+  cardImage2.setAttribute(
+    "src",
+    `https://github.com/longnphan/blackjack/blob/main/images/${dealerHand[0]}.svg`
+  );
   dealer.appendChild(cardImage2);
 }
 
 function dealerFlipsCard() {
   const faceDownCard = document.querySelector(".faceDown");
-  faceDownCard.setAttribute("src", `../images/${dealerHand[1]}.svg`);
+  faceDownCard.setAttribute(
+    "src",
+    `https://github.com/longnphan/blackjack/blob/main/images/${dealerHand[1]}.svg`
+  );
 }
 
 function dealerHit() {
@@ -123,12 +129,14 @@ function dealerHit() {
 
   // Adds new card to dealers hand
   let cardImage = document.createElement("img");
-  cardImage.setAttribute("src", `../images/${nextCard}.svg`);
+  cardImage.setAttribute(
+    "src",
+    `https://github.com/longnphan/blackjack/blob/main/images/${nextCard}.svg`
+  );
   dealer.appendChild(cardImage);
 
   // Recalculates player new total.
   let dealerTotal = evalHand(dealerHand);
-  console.log("new dealer total in DealerHit is:", dealerTotal);
 }
 
 function dealerNextCard() {
@@ -137,11 +145,13 @@ function dealerNextCard() {
 
   // Adds new card to dealer hand
   let cardImage = document.createElement("img");
-  cardImage.setAttribute("src", `../images/${nextCard}.svg`);
+  cardImage.setAttribute(
+    "src",
+    `https://github.com/longnphan/blackjack/blob/main/images/${nextCard}.svg`
+  );
   dealer.appendChild(cardImage);
 
   let dealerTotal = evalHand(dealerHand);
-  console.log("new dealer total in DealerHit is:", dealerTotal);
 }
 
 function dealerNextMove() {
@@ -196,10 +206,6 @@ function dealNewHand() {
   setTimeout(playerSecondCard, 400);
   setTimeout(dealerSecondCard, 600);
 
-  // Logging for testing purposes
-  console.log("Dealers hand is:", evalHand(dealerHand));
-  console.log("Player hand is:", evalHand(playerHand));
-
   // Checks if player/dealer has blackjack. Otherwise, play resumes.
   playerNextMove();
 }
@@ -217,7 +223,10 @@ function dealersTurn() {
 
 function dealerSecondCard() {
   let cardImage4 = document.createElement("img");
-  cardImage4.setAttribute("src", `../images/back.svg`);
+  cardImage4.setAttribute(
+    "src",
+    `https://github.com/longnphan/blackjack/blob/main/images/back.svg`
+  );
   cardImage4.classList.add("faceDown");
   dealer.appendChild(cardImage4);
 }
@@ -351,7 +360,10 @@ function playerDoubleDown() {
 
 function playerFirstCard() {
   let cardImage = document.createElement("img");
-  cardImage.setAttribute("src", `../images/${playerHand[0]}.svg`);
+  cardImage.setAttribute(
+    "src",
+    `https://github.com/longnphan/blackjack/blob/main/images/${playerHand[0]}.svg`
+  );
   cardImage.classList.add("playerFirstCard");
   player.appendChild(cardImage);
 }
@@ -369,13 +381,15 @@ function playerNextCard() {
 
   // Adds new card to players hand
   let cardImage = document.createElement("img");
-  cardImage.setAttribute("src", `../images/${nextCard}.svg`);
+  cardImage.setAttribute(
+    "src",
+    `https://github.com/longnphan/blackjack/blob/main/images/${nextCard}.svg`
+  );
   player.appendChild(cardImage);
 
   // Recalculates player new total.
   let playerTotal = evalHand(playerHand);
   updatePlayerText(playerTotal);
-  console.log("new player total in PlayerHit is:", playerTotal);
   playerNextMove();
 }
 
@@ -393,9 +407,6 @@ function playerNextMove() {
   let playerInitTotal = evalFirstHand(playerHand);
   let dealerTotal = evalHand(dealerHand);
   let playerTotal = evalHand(playerHand);
-
-  console.log("Player init value is:", playerInitTotal);
-  console.log("Dealer init value is:", dealerInitTotal);
 
   // Disables Double down btn if player does not have enough money.
   if (totalBalanceAmt < totalBetAmt)
@@ -416,7 +427,6 @@ function playerNextMove() {
 }
 
 function playerPushes() {
-  console.log("PUSH");
   dealerFlipsCard();
   totalBalanceAmt += totalBetAmt;
   playerOutcome.textContent = "Push";
@@ -425,7 +435,10 @@ function playerPushes() {
 
 function playerSecondCard() {
   let cardImage3 = document.createElement("img");
-  cardImage3.setAttribute("src", `../images/${playerHand[1]}.svg`);
+  cardImage3.setAttribute(
+    "src",
+    `https://github.com/longnphan/blackjack/blob/main/images/${playerHand[1]}.svg`
+  );
   cardImage3.classList.add("playerSecondCard");
   player.appendChild(cardImage3);
 
@@ -439,7 +452,7 @@ function playerStand() {
 }
 
 function playerWins(oddsFactor = 1) {
-  // pays back original bet amt + bet multiple by 1.5 for blackjack.
+  // oddsFactor will be 1.5 for blackjack.
   totalBalanceAmt += totalBetAmt + totalBetAmt * oddsFactor;
 
   playerOutcome.textContent = "Win";
@@ -466,7 +479,7 @@ function shuffleCards(deck) {
 
 function startBrandNewGame() {
   // Occurs when player has lost all their money.
-  alert("You're out of money. Here's a $500 loan.");
+  alert("You're out of money. Here's $500.");
   totalBalanceAmt = 500;
   balanceText.textContent = `$${totalBalanceAmt}`;
 }
