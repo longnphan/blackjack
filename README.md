@@ -8,7 +8,7 @@
 
 
 ## How to play
- 1. To start the game, make a wager by selecting the "poker chip" 
+ 1. To start the game, place a bet by selecting the "poker chip" 
 buttons located on the lower left area of the screen:
 <img width="720" alt="image" src="https://github.com/longnphan/blackjack/assets/67768035/d3a5f5c9-c390-42f8-b829-cb623cff8b84">
 
@@ -16,7 +16,7 @@ buttons located on the lower left area of the screen:
 
 ---
 
-2. After selecting your bet amount, press the **"Deal"** button to start the hand.
+2. After placing your bet, press the **"Deal"** button to start the hand.
 <img width="703" alt="image" src="https://github.com/longnphan/blackjack/assets/67768035/8594ef1a-25f9-4652-b6b0-9c5c372ba9e3">
 
 ---
@@ -32,7 +32,7 @@ buttons located on the lower left area of the screen:
 ---
 
 4. After you complete a hand, click the ***New Game*** button at the bottom of the sceen to start a new game.
-   Repeat Step 1 to start a new hand.
+   Repeat ***Step 1*** to start a new hand.
    <img width="900" alt="image" src="https://github.com/longnphan/blackjack/assets/67768035/803bb038-1ae4-4212-bf0c-355cf4330e68">
 
 ---
