@@ -10,21 +10,23 @@
 ## How to play
  1. To start the game, make a wager by selecting the 
 buttons located on the lower left area of the screen:
-<img width="740" alt="image" src="https://github.com/longnphan/blackjack/assets/67768035/723de5f4-e6a0-4aa2-b074-d9b2193debf6">
+<img width="720" alt="image" src="https://github.com/longnphan/blackjack/assets/67768035/d3a5f5c9-c390-42f8-b829-cb623cff8b84">
 
 ***Please note: You will not be able to select the action buttons (New Game, Deal, Hit, Stand, Double Down) until you make a bet.***
 
 ---
 
 2. After selecting your bet amount, press the **"Deal"** button to start the hand.
-<img width="740" alt="image" src="https://github.com/longnphan/blackjack/assets/67768035/626283b1-3749-490c-b679-dadc62ba45bb">
+<img width="703" alt="image" src="https://github.com/longnphan/blackjack/assets/67768035/8594ef1a-25f9-4652-b6b0-9c5c372ba9e3">
+
 
 3. You can choose to hit, stand, or double down (if you meet the following conditions):
     * You have not already "hit" on the current hand.
     * Your balance is less than your **Total Bet** amount
 
     ***Please note: the double down button will be disabled if you do not meet these conditions***
-    <img width="740" alt="image" src="https://github.com/longnphan/blackjack/assets/67768035/d62ba43f-e54a-4ceb-af3d-47867033e8e5">
+<img width="706" alt="image" src="https://github.com/longnphan/blackjack/assets/67768035/6f7b818c-0a90-455f-a086-d61813611de8">
+
 
 4. Blackjack pays 1.5 times. If you and the dealer get blackjack, it is considered a push.
 
