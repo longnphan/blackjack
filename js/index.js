@@ -108,13 +108,19 @@ function clearCards() {
 
 function dealerFirstCard() {
   let cardImage2 = document.createElement("img");
-  cardImage2.setAttribute("src", `../images/${dealerHand[0]}.svg`);
+  cardImage2.setAttribute(
+    "src",
+    `https://github.com/longnphan/blackjack/blob/main/images/${dealerHand[0]}.svg`
+  );
   dealer.appendChild(cardImage2);
 }
 
 function dealerFlipsCard() {
   const faceDownCard = document.querySelector(".faceDown");
-  faceDownCard.setAttribute("src", `../images/${dealerHand[1]}.svg`);
+  faceDownCard.setAttribute(
+    "src",
+    `https://github.com/longnphan/blackjack/blob/main/images/${dealerHand[1]}.svg`
+  );
 }
 
 function dealerHit() {
@@ -123,7 +129,10 @@ function dealerHit() {
 
   // Adds new card to dealers hand
   let cardImage = document.createElement("img");
-  cardImage.setAttribute("src", `../images/${nextCard}.svg`);
+  cardImage.setAttribute(
+    "src",
+    `https://github.com/longnphan/blackjack/blob/main/images/${nextCard}.svg`
+  );
   dealer.appendChild(cardImage);
 
   // Recalculates player new total.
@@ -136,7 +145,10 @@ function dealerNextCard() {
 
   // Adds new card to dealer hand
   let cardImage = document.createElement("img");
-  cardImage.setAttribute("src", `../images/${nextCard}.svg`);
+  cardImage.setAttribute(
+    "src",
+    `https://github.com/longnphan/blackjack/blob/main/images/${nextCard}.svg`
+  );
   dealer.appendChild(cardImage);
 
   let dealerTotal = evalHand(dealerHand);
@@ -211,7 +223,10 @@ function dealersTurn() {
 
 function dealerSecondCard() {
   let cardImage4 = document.createElement("img");
-  cardImage4.setAttribute("src", `../images/back.svg`);
+  cardImage4.setAttribute(
+    "src",
+    `https://github.com/longnphan/blackjack/blob/main/images/back.svg`
+  );
   cardImage4.classList.add("faceDown");
   dealer.appendChild(cardImage4);
 }
@@ -345,7 +360,10 @@ function playerDoubleDown() {
 
 function playerFirstCard() {
   let cardImage = document.createElement("img");
-  cardImage.setAttribute("src", `../images/${playerHand[0]}.svg`);
+  cardImage.setAttribute(
+    "src",
+    `https://github.com/longnphan/blackjack/blob/main/images/${playerHand[0]}.svg`
+  );
   cardImage.classList.add("playerFirstCard");
   player.appendChild(cardImage);
 }
@@ -363,7 +381,10 @@ function playerNextCard() {
 
   // Adds new card to players hand
   let cardImage = document.createElement("img");
-  cardImage.setAttribute("src", `../images/${nextCard}.svg`);
+  cardImage.setAttribute(
+    "src",
+    `https://github.com/longnphan/blackjack/blob/main/images/${nextCard}.svg`
+  );
   player.appendChild(cardImage);
 
   // Recalculates player new total.
@@ -414,7 +435,10 @@ function playerPushes() {
 
 function playerSecondCard() {
   let cardImage3 = document.createElement("img");
-  cardImage3.setAttribute("src", `../images/${playerHand[1]}.svg`);
+  cardImage3.setAttribute(
+    "src",
+    `https://github.com/longnphan/blackjack/blob/main/images/${playerHand[1]}.svg`
+  );
   cardImage3.classList.add("playerSecondCard");
   player.appendChild(cardImage3);
 
