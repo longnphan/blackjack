@@ -71,6 +71,7 @@ function calcBetAmt() {
 }
 
 function chipValue(event) {
+  // Stored chip value as html attribute data-val
   let chipValue = Number(event.target.dataset.val);
 
   // Enables deal btn when totalBetAmt > 0
