@@ -109,7 +109,7 @@ footer {
 .footer-container {
   border-top: 2px rgb(145, 138, 138) solid;
   display: grid;
-  grid-template-columns: 37.5% 25% 37.5%;
+  grid-template-columns: 40% 20% 40%;
 
   /* display: flex;
   justify-content: space-between; */
@@ -172,4 +172,5 @@ img {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: 0 1rem;
 }
