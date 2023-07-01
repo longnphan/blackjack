@@ -202,12 +202,13 @@ img {
   .balance-heading,
   .bet-amount,
   .bet-heading {
-    font-size: 10px;
+    font-size: 8px;
     margin: 0;
   }
 
   body {
     background: radial-gradient(#419c59, #305639);
+    grid-template-columns: 20% 3% 77%;
     touch-action: manipulation;
   }
 
@@ -243,10 +244,11 @@ img {
   }
 
   img {
-    width: 35%;
+    width: 32%;
   }
 
   .player-info-container {
     font-size: 14px;
     grid-area: 4 / 1;
   }
+}
