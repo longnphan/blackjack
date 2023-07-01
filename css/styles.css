@@ -9,8 +9,10 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   color: white;
+  display: grid;
+  grid-template-columns: 28% 12% 60%;
+  grid-template-rows: 2% 40% 10% 40%;
   height: 100vh;
-  position: relative;
 }
 
 .balance-amount {
