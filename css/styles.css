@@ -148,12 +148,14 @@ img {
   justify-content: space-evenly;
 }
 
+/* ****************    Mobile Landscape CSS    ****************  */
 @media (orientation: landscape) and (hover: none) and (pointer: coarse) {
   body {
     background: none;
     background-color: #419c59;
     grid-template-columns: 2% 18% 80%;
-    grid-template-rows: 2% 40% 5% 40% 13%;
+    grid-template-rows: 2% 35% 3% 35% 25%;
+    touch-action: manipulation;
   }
 
   .balance-amount,
@@ -182,7 +184,7 @@ img {
   }
 
   .footer-container {
-    grid-template-columns: 41.5% 16% 41.5%;
+    grid-template-columns: 42% 16% 42%;
   }
 
   img {
@@ -194,6 +196,7 @@ img {
   }
 }
 
+/* ****************    Mobile Portrait CSS    ****************  */
 @media screen and (max-width: 480px) {
   .balance-amount,
   .balance-heading,
@@ -205,6 +208,7 @@ img {
 
   body {
     background: radial-gradient(#419c59, #305639);
+    touch-action: manipulation;
   }
 
   .btn {
@@ -246,4 +250,3 @@ img {
     font-size: 14px;
     grid-area: 4 / 1;
   }
-}
