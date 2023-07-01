@@ -3,13 +3,13 @@ const balanceText = document.querySelector(".balance-amount");
 const betText = document.querySelector(".bet-amount");
 const chipBtns = document.querySelectorAll(".btn-chips");
 const clearBtn = document.querySelector(".btn-clear");
-const dealer = document.querySelector(".dealer-cards");
+const dealer = document.querySelector(".dealer-card-container");
 const dealBtn = document.querySelector(".btn-deal");
 const dealerText = document.querySelector(".dealer-total-text");
 const doubleDownBtn = document.querySelector(".btn-doubleDown");
 const hitBtn = document.querySelector(".btn-hit");
 const newGameBtn = document.querySelector(".btn-newGame");
-const player = document.querySelector(".player-cards");
+const player = document.querySelector(".player-card-container");
 const playerText = document.querySelector(".player-total-text");
 const playerOutcome = document.querySelector(".player-outcome");
 const standBtn = document.querySelector(".btn-stand");
@@ -320,7 +320,7 @@ function isPush() {
 function playerBlackjack() {
   dealerFlipsCard();
   playerWins(1.5);
-  playerOutcome.textContent = "BJ!";
+  playerOutcome.textContent = "Blackjack!";
 }
 
 function playerBusts() {
