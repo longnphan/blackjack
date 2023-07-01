@@ -147,3 +147,33 @@ img {
   flex-direction: column;
   justify-content: space-evenly;
 }
+
+@media (orientation: landscape) and (hover: none) and (pointer: coarse) {
+  body {
+    background: radial-gradient(#419c59, #305639);
+  }
+
+  .btn {
+    height: 35px;
+    margin: 0;
+    width: 35px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  body {
+    background: radial-gradient(#419c59, #305639);
+  }
+
+  .btn {
+    height: 35px;
+    margin: 0;
+    width: 35px;
+  }
+
+  .btn-chips1,
+  .btn-chips5,
+  .btn-chips25 {
+    display: none;
+  }
+}
