@@ -163,7 +163,7 @@ img {
   .btn {
     font-size: 8px;
     height: 40px;
-    margin: 0;
+    margin: 3px;
     width: 40px;
   }
 
@@ -178,7 +178,7 @@ img {
   }
 
   img {
-    width: 18%;
+    width: 10%;
   }
 
   .player-info-container {
@@ -200,10 +200,10 @@ img {
   }
 
   .btn {
-    height: 38px;
+    height: 37px;
     font-size: 8px;
-    margin: 2px;
-    width: 38px;
+    margin: 3px;
+    width: 37px;
   }
 
   .btn-chips1,
