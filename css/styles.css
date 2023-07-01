@@ -147,3 +147,94 @@ img {
   flex-direction: column;
   justify-content: space-evenly;
 }
+
+@media (orientation: landscape) and (hover: none) and (pointer: coarse) {
+  body {
+    background: radial-gradient(#419c59, #305639);
+  }
+
+  .balance-amount,
+  .balance-heading,
+  .bet-amount,
+  .bet-heading {
+    font-size: 12px;
+  }
+
+  .btn {
+    font-size: 8px;
+    height: 40px;
+    margin: 0;
+    width: 40px;
+  }
+
+  .dealer-info-container {
+    font-size: 12px;
+  }
+
+  .dealer-total-text,
+  .player-total-text,
+  .player-outcome {
+    margin-top: 6px;
+  }
+
+  img {
+    width: 18%;
+  }
+
+  .player-info-container {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .balance-amount,
+  .balance-heading,
+  .bet-amount,
+  .bet-heading {
+    font-size: 10px;
+    margin: 0;
+  }
+
+  body {
+    background: radial-gradient(#419c59, #305639);
+  }
+
+  .btn {
+    height: 38px;
+    font-size: 8px;
+    margin: 2px;
+    width: 38px;
+  }
+
+  .btn-chips1,
+  .btn-chips5,
+  .btn-chips25 {
+    display: none;
+  }
+
+  .dealer-info-container {
+    font-size: 14px;
+    grid-area: 1 / 1;
+    padding-top: 1.25rem;
+  }
+
+  .dealer-total-text,
+  .player-total-text,
+  .player-outcome {
+    margin-top: 6px;
+  }
+
+  .footer-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  img {
+    width: 35%;
+  }
+
+  .player-info-container {
+    font-size: 14px;
+    grid-area: 4 / 1;
+  }
+}
