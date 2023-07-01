@@ -167,6 +167,7 @@ img {
     font-size: 8px;
     height: 42px;
     margin: 0 6px;
+    touch-action: manipulation;
     width: 42px;
   }
 
@@ -180,8 +181,8 @@ img {
     margin-top: 6px;
   }
 
-  .footer-container{
-  grid-template-columns: 41.5% 16% 41.5%;
+  .footer-container {
+    grid-template-columns: 41.5% 16% 41.5%;
   }
 
   img {
@@ -210,6 +211,7 @@ img {
     height: 37px;
     font-size: 8px;
     margin: 3px;
+    touch-action: manipulation;
     width: 37px;
   }
 
