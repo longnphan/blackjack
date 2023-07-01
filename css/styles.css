@@ -13,6 +13,7 @@ body {
   grid-template-columns: 28% 12% 60%;
   grid-template-rows: 2% 40% 10% 40%;
   height: 100vh;
+  overflow: hidden;
 }
 
 .balance-amount {
@@ -188,7 +189,7 @@ img {
   }
 
   img {
-    width: 17%;
+    width: 15%;
   }
 
   .player-info-container {
@@ -244,7 +245,7 @@ img {
   }
 
   img {
-    width: 32%;
+    width: 25%;
   }
 
   .player-info-container {
