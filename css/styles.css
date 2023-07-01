@@ -150,7 +150,7 @@ img {
 
 @media (orientation: landscape) and (hover: none) and (pointer: coarse) {
   body {
-    background: radial-gradient(#419c59, #305639);
+    background-color: #305639;
   }
 
   .balance-amount,
