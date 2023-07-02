@@ -8,16 +8,17 @@
 
 
 ## How to play
- 1. To start the game, place a bet by selecting the "poker chip" 
-buttons located on the lower left area of the screen:
-<img width="720" alt="image" src="https://github.com/longnphan/blackjack/assets/67768035/d3a5f5c9-c390-42f8-b829-cb623cff8b84">
+ 1. To start the game, place a bet by selecting the "poker chip" buttons located on the lower left area of the screen.
+   
+    <img width="720" alt="image" src="https://github.com/longnphan/blackjack/assets/67768035/d3a5f5c9-c390-42f8-b829-cb623cff8b84">
 
 ***Please note: You will not be able to select the action buttons (New Game, Deal, Hit, Stand, Double Down) until you place a bet.***
 
 ---
 
 2. After placing your bet, press the **"Deal"** button to start the hand.
-<img width="703" alt="image" src="https://github.com/longnphan/blackjack/assets/67768035/8594ef1a-25f9-4652-b6b0-9c5c372ba9e3">
+  
+   <img width="703" alt="image" src="https://github.com/longnphan/blackjack/assets/67768035/8594ef1a-25f9-4652-b6b0-9c5c372ba9e3">
 
 ---
 
@@ -27,13 +28,17 @@ buttons located on the lower left area of the screen:
     * *Your balance is less than your **Total Bet** amount.*
 
     ***Please note: the double down button will be disabled if you do not meet these conditions***
-<img width="663" alt="image" src="https://github.com/longnphan/blackjack/assets/67768035/39a2ffae-d9a2-4ccb-abe5-581ff7613daa">
+
+   <img width="663" alt="image" src="https://github.com/longnphan/blackjack/assets/67768035/39a2ffae-d9a2-4ccb-abe5-581ff7613daa">
 
 ---
 
 4. After you complete a hand, click the ***New Game*** button at the bottom of the sceen to start a new game.
    Repeat ***Step 1*** to start a new hand.
-   <img width="900" alt="image" src="https://github.com/longnphan/blackjack/assets/67768035/803bb038-1ae4-4212-bf0c-355cf4330e68">
+   
+   <img width="900" alt="image" src="https://github.com/longnphan/blackjack/assets/67768035/058a5d13-67ef-40d1-a88b-70566d1358c3">
+
+
 
 ---
 5. Blackjack pays 1.5 times. If you and the dealer get blackjack, it is a push and you will receive your original wager back.
