@@ -12,6 +12,7 @@ const newGameBtn = document.querySelector(".btn-newGame");
 const player = document.querySelector(".player-card-container");
 const playerText = document.querySelector(".player-total-text");
 const playerOutcome = document.querySelector(".player-outcome");
+const splitBtn = document.querySelector(".btn-split");
 const standBtn = document.querySelector(".btn-stand");
 
 // Gameplay Variables
